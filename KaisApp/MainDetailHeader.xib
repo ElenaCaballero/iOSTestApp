@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MainDetailHeader" customModule="KaisApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="577" height="170"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wuQ-fR-az0">
+                    <rect key="frame" x="0.0" y="71" width="577" height="29"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="ZMv-Eb-Ye2"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Fotos"/>
+                        <segment title="Reseñas"/>
+                    </segments>
+                    <color key="tintColor" red="0.99646371600000005" green="0.58648604150000005" blue="0.069411702450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" red="0.50545288710000003" green="0.50545288710000003" blue="0.50545288710000003" alpha="0.25107020549999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="wuQ-fR-az0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Lel-HF-YDT" userLabel="Images Reviews Segmented Control.leading = Safe Area.leading +4"/>
+                <constraint firstItem="wuQ-fR-az0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="VPr-af-PcC"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="wuQ-fR-az0" secondAttribute="trailing" id="yCg-uA-bY7" userLabel="Safe Area.trailing = Images Reviews Segmented Control.trailing + 4"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="imagesReviewsSegmentedControl" destination="wuQ-fR-az0" id="8kR-Pb-nus"/>
+            </connections>
+            <point key="canvasLocation" x="111.5" y="-534"/>
+        </view>
+    </objects>
+</document>

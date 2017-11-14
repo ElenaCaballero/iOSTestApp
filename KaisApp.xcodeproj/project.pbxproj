@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8409463CB5EFD51679F3E370 /* Pods_KaisApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10CBC62F90D9A7D117EBF950 /* Pods_KaisApp.framework */; };
+		BD01D52A1FB25E4900254267 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD01D5291FB25E4900254267 /* PopAnimator.swift */; };
+		BD1749D81FB111CE0037C9CA /* Images_Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1749D71FB111CE0037C9CA /* Images_Data.swift */; };
+		BD4858A81FB4FE9E00389C4B /* MainDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4858A71FB4FE9E00389C4B /* MainDetailTableViewCell.swift */; };
+		BD4858AA1FB4FEBA00389C4B /* MainDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4858A91FB4FEBA00389C4B /* MainDetailTableViewController.swift */; };
+		BD4858AC1FB5130700389C4B /* MainDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4858AB1FB5130700389C4B /* MainDetailHeader.swift */; };
+		BD69DC3E1FBA51DF005B36D5 /* TableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */; };
+		BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */; };
+		BDA1D7B11FB5228500E205C1 /* MainDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */; };
+		BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */; };
+		BDD40B301FBA294A00C43741 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */; };
+		BDD40B321FBA2C2400C43741 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */; };
+		F3246FCE1FAD3D2E0083C51F /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3246FCD1FAD3D2E0083C51F /* PopUpViewController.swift */; };
+		F34D4C8D1FB0DBF200DC44A5 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34D4C8C1FB0DBF200DC44A5 /* ReviewViewController.swift */; };
+		F390CD7A1FA78DE400D50A9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F390CD791FA78DE400D50A9B /* AppDelegate.swift */; };
+		F390CD7C1FA78DE400D50A9B /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F390CD7B1FA78DE400D50A9B /* MainTableViewController.swift */; };
+		F390CD7F1FA78DE400D50A9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F390CD7D1FA78DE400D50A9B /* Main.storyboard */; };
+		F390CD811FA78DE400D50A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F390CD801FA78DE400D50A9B /* Assets.xcassets */; };
+		F390CD841FA78DE400D50A9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F390CD821FA78DE400D50A9B /* LaunchScreen.storyboard */; };
+		F390CD8D1FA78E1800D50A9B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F390CD8C1FA78E1800D50A9B /* Default-568h@2x.png */; };
+		F390CD911FA8E98800D50A9B /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F390CD901FA8E98800D50A9B /* MainTableViewCell.swift */; };
+		F39981171FAA768E00E04F30 /* Places.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39981161FAA768E00E04F30 /* Places.swift */; };
+		F3ECA29B1FABDA22004D16C9 /* ImagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECA29A1FABDA22004D16C9 /* ImagesTableViewController.swift */; };
+		F3ECA2A31FABE0EB004D16C9 /* ImagesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECA2A21FABE0EB004D16C9 /* ImagesDetailViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0CBD5032D2663ABCF2CC9AD7 /* Pods-KaisApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaisApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp.debug.xcconfig"; sourceTree = "<group>"; };
+		10CBC62F90D9A7D117EBF950 /* Pods_KaisApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaisApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD01D5291FB25E4900254267 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
+		BD1749D71FB111CE0037C9CA /* Images_Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images_Data.swift; sourceTree = "<group>"; };
+		BD4858A71FB4FE9E00389C4B /* MainDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailTableViewCell.swift; sourceTree = "<group>"; };
+		BD4858A91FB4FEBA00389C4B /* MainDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailTableViewController.swift; sourceTree = "<group>"; };
+		BD4858AB1FB5130700389C4B /* MainDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailHeader.swift; sourceTree = "<group>"; };
+		BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelper.swift; sourceTree = "<group>"; };
+		BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainDetailHeader.xib; sourceTree = "<group>"; };
+		BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
+		BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		F3246FCD1FAD3D2E0083C51F /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		F34D4C8C1FB0DBF200DC44A5 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
+		F390CD761FA78DE400D50A9B /* KaisApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KaisApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F390CD791FA78DE400D50A9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F390CD7B1FA78DE400D50A9B /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		F390CD7E1FA78DE400D50A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F390CD801FA78DE400D50A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F390CD831FA78DE400D50A9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F390CD851FA78DE400D50A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F390CD8C1FA78E1800D50A9B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F390CD901FA8E98800D50A9B /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		F39981161FAA768E00E04F30 /* Places.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Places.swift; sourceTree = "<group>"; };
+		F3ECA29A1FABDA22004D16C9 /* ImagesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesTableViewController.swift; sourceTree = "<group>"; };
+		F3ECA2A21FABE0EB004D16C9 /* ImagesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesDetailViewController.swift; sourceTree = "<group>"; };
+		F5118EFDE9EB2FF22464D320 /* Pods-KaisApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaisApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F390CD731FA78DE400D50A9B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8409463CB5EFD51679F3E370 /* Pods_KaisApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49B73FF4437146E08CDA3995 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				10CBC62F90D9A7D117EBF950 /* Pods_KaisApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96947DF160B372AF4BD0B5E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0CBD5032D2663ABCF2CC9AD7 /* Pods-KaisApp.debug.xcconfig */,
+				F5118EFDE9EB2FF22464D320 /* Pods-KaisApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F390CD6D1FA78DE400D50A9B = {
+			isa = PBXGroup;
+			children = (
+				F390CD8C1FA78E1800D50A9B /* Default-568h@2x.png */,
+				F390CD781FA78DE400D50A9B /* KaisApp */,
+				F390CD771FA78DE400D50A9B /* Products */,
+				96947DF160B372AF4BD0B5E2 /* Pods */,
+				49B73FF4437146E08CDA3995 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F390CD771FA78DE400D50A9B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F390CD761FA78DE400D50A9B /* KaisApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F390CD781FA78DE400D50A9B /* KaisApp */ = {
+			isa = PBXGroup;
+			children = (
+				BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */,
+				F390CD7B1FA78DE400D50A9B /* MainTableViewController.swift */,
+				F390CD901FA8E98800D50A9B /* MainTableViewCell.swift */,
+				BD4858A91FB4FEBA00389C4B /* MainDetailTableViewController.swift */,
+				BD4858A71FB4FE9E00389C4B /* MainDetailTableViewCell.swift */,
+				BD4858AB1FB5130700389C4B /* MainDetailHeader.swift */,
+				BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */,
+				BD01D5291FB25E4900254267 /* PopAnimator.swift */,
+				F3246FCD1FAD3D2E0083C51F /* PopUpViewController.swift */,
+				F34D4C8C1FB0DBF200DC44A5 /* ReviewViewController.swift */,
+				F3ECA29A1FABDA22004D16C9 /* ImagesTableViewController.swift */,
+				F3ECA2A21FABE0EB004D16C9 /* ImagesDetailViewController.swift */,
+				BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */,
+				BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */,
+				BD1749D71FB111CE0037C9CA /* Images_Data.swift */,
+				F39981161FAA768E00E04F30 /* Places.swift */,
+				BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */,
+				F390CD7D1FA78DE400D50A9B /* Main.storyboard */,
+				F390CD791FA78DE400D50A9B /* AppDelegate.swift */,
+				F390CD801FA78DE400D50A9B /* Assets.xcassets */,
+				BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */,
+				F390CD8B1FA78DFF00D50A9B /* Supporting Files */,
+			);
+			path = KaisApp;
+			sourceTree = "<group>";
+		};
+		F390CD8B1FA78DFF00D50A9B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F390CD821FA78DE400D50A9B /* LaunchScreen.storyboard */,
+				F390CD851FA78DE400D50A9B /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F390CD751FA78DE400D50A9B /* KaisApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F390CD881FA78DE400D50A9B /* Build configuration list for PBXNativeTarget "KaisApp" */;
+			buildPhases = (
+				D49E91DBAE3BC1B4C304984D /* [CP] Check Pods Manifest.lock */,
+				F390CD721FA78DE400D50A9B /* Sources */,
+				F390CD731FA78DE400D50A9B /* Frameworks */,
+				F390CD741FA78DE400D50A9B /* Resources */,
+				92CA9F83EB8D92543E19120D /* [CP] Embed Pods Frameworks */,
+				894D3DAABF658DD031442A36 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KaisApp;
+			productName = KaisApp;
+			productReference = F390CD761FA78DE400D50A9B /* KaisApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F390CD6E1FA78DE400D50A9B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "Elena Caballero";
+				TargetAttributes = {
+					F390CD751FA78DE400D50A9B = {
+						CreatedOnToolsVersion = 9.0.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F390CD711FA78DE400D50A9B /* Build configuration list for PBXProject "KaisApp" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F390CD6D1FA78DE400D50A9B;
+			productRefGroup = F390CD771FA78DE400D50A9B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F390CD751FA78DE400D50A9B /* KaisApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F390CD741FA78DE400D50A9B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F390CD841FA78DE400D50A9B /* LaunchScreen.storyboard in Resources */,
+				F390CD8D1FA78E1800D50A9B /* Default-568h@2x.png in Resources */,
+				BDA1D7B11FB5228500E205C1 /* MainDetailHeader.xib in Resources */,
+				F390CD811FA78DE400D50A9B /* Assets.xcassets in Resources */,
+				F390CD7F1FA78DE400D50A9B /* Main.storyboard in Resources */,
+				BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		894D3DAABF658DD031442A36 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp-resources.sh",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92CA9F83EB8D92543E19120D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KaisApp/Pods-KaisApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D49E91DBAE3BC1B4C304984D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KaisApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F390CD721FA78DE400D50A9B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3ECA2A31FABE0EB004D16C9 /* ImagesDetailViewController.swift in Sources */,
+				BD4858AC1FB5130700389C4B /* MainDetailHeader.swift in Sources */,
+				BD1749D81FB111CE0037C9CA /* Images_Data.swift in Sources */,
+				BD69DC3E1FBA51DF005B36D5 /* TableViewHelper.swift in Sources */,
+				BDD40B301FBA294A00C43741 /* UserProfileTableViewController.swift in Sources */,
+				BDD40B321FBA2C2400C43741 /* UserProfileTableViewCell.swift in Sources */,
+				F34D4C8D1FB0DBF200DC44A5 /* ReviewViewController.swift in Sources */,
+				F390CD7C1FA78DE400D50A9B /* MainTableViewController.swift in Sources */,
+				F390CD7A1FA78DE400D50A9B /* AppDelegate.swift in Sources */,
+				F390CD911FA8E98800D50A9B /* MainTableViewCell.swift in Sources */,
+				F3ECA29B1FABDA22004D16C9 /* ImagesTableViewController.swift in Sources */,
+				BD4858AA1FB4FEBA00389C4B /* MainDetailTableViewController.swift in Sources */,
+				BD4858A81FB4FE9E00389C4B /* MainDetailTableViewCell.swift in Sources */,
+				F3246FCE1FAD3D2E0083C51F /* PopUpViewController.swift in Sources */,
+				BD01D52A1FB25E4900254267 /* PopAnimator.swift in Sources */,
+				BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */,
+				F39981171FAA768E00E04F30 /* Places.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F390CD7D1FA78DE400D50A9B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F390CD7E1FA78DE400D50A9B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F390CD821FA78DE400D50A9B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F390CD831FA78DE400D50A9B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F390CD861FA78DE400D50A9B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F390CD871FA78DE400D50A9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F390CD891FA78DE400D50A9B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CBD5032D2663ABCF2CC9AD7 /* Pods-KaisApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YD5FNB475F;
+				INFOPLIST_FILE = "$(SRCROOT)/KaisApp/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kaisapp.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F390CD8A1FA78DE400D50A9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5118EFDE9EB2FF22464D320 /* Pods-KaisApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YD5FNB475F;
+				INFOPLIST_FILE = "$(SRCROOT)/KaisApp/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kaisapp.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F390CD711FA78DE400D50A9B /* Build configuration list for PBXProject "KaisApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F390CD861FA78DE400D50A9B /* Debug */,
+				F390CD871FA78DE400D50A9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F390CD881FA78DE400D50A9B /* Build configuration list for PBXNativeTarget "KaisApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F390CD891FA78DE400D50A9B /* Debug */,
+				F390CD8A1FA78DE400D50A9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F390CD6E1FA78DE400D50A9B /* Project object */;
+}
