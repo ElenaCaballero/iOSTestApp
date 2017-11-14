@@ -1157,6 +1157,9 @@
                                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Iniciar Sesión"/>
+                                        <connections>
+                                            <action selector="signInButtonTouched:" destination="5vz-U1-OkL" eventType="touchUpInside" id="hQy-Bu-DLo"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>

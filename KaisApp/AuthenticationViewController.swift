@@ -62,6 +62,14 @@ class AuthenticationViewController: UIViewController {
         }
     }
     
+    @IBAction func signInButtonTouched(_ sender: Any) {
+        let email = emailSignInTextField.text
+        let password = passwordSignInTextField.text
+        
+        Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+            
+        }
+    }
     
 
     /*
