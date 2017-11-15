@@ -43,6 +43,7 @@
 		BD4858AB1FB5130700389C4B /* MainDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailHeader.swift; sourceTree = "<group>"; };
 		BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHelper.swift; sourceTree = "<group>"; };
 		BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		BD69DC411FBCB258005B36D5 /* KaisApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KaisApp.entitlements; sourceTree = "<group>"; };
 		BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainDetailHeader.xib; sourceTree = "<group>"; };
 		BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +116,7 @@
 		F390CD781FA78DE400D50A9B /* KaisApp */ = {
 			isa = PBXGroup;
 			children = (
+				BD69DC411FBCB258005B36D5 /* KaisApp.entitlements */,
 				BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */,
 				F390CD7B1FA78DE400D50A9B /* MainTableViewController.swift */,
 				F390CD901FA8E98800D50A9B /* MainTableViewCell.swift */,
@@ -186,6 +188,11 @@
 					F390CD751FA78DE400D50A9B = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -463,6 +470,7 @@
 			baseConfigurationReference = 0CBD5032D2663ABCF2CC9AD7 /* Pods-KaisApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KaisApp/KaisApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YD5FNB475F;
 				INFOPLIST_FILE = "$(SRCROOT)/KaisApp/Supporting Files/Info.plist";
@@ -480,6 +488,7 @@
 			baseConfigurationReference = F5118EFDE9EB2FF22464D320 /* Pods-KaisApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KaisApp/KaisApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YD5FNB475F;
 				INFOPLIST_FILE = "$(SRCROOT)/KaisApp/Supporting Files/Info.plist";

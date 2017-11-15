@@ -150,10 +150,9 @@ class MainDetailTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! MainDetailTableViewCell
         
         if indexPath.row >= snapshots.count{
-            //mainDetailTableView.reloadData()
             cell.backgroundColor = UIColor.black
         } else {
-            cell.forDynamicCells(snapshot: snapshots[indexPath.row], place: place, storage: storage)
+            cell.forDynamicCells(snapshot: snapshots[indexPath.row], storage: storage)
         }
         
         return cell
@@ -191,7 +190,6 @@ class MainDetailTableViewController: UITableViewController {
         storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
         
         ref.queryOrdered(byChild: "timestamp").observe(.value) { [weak self] (snapshot) in
-            print("IN HERE")
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.snapshots = snapshots
                 self?.activityIndicatorView.stopAnimating()

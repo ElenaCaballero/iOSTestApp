@@ -74,7 +74,11 @@ class MainTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of MainViewTableViewCell.")
         }
         
-        cell.mainPlaces(snap: snapshots[indexPath.row])
+        if indexPath.row >= snapshots.count{
+            cell.backgroundColor = UIColor.black
+        } else {
+            cell.mainPlaces(snap: snapshots[indexPath.row])
+        }
         
         return cell
     }
@@ -91,47 +95,49 @@ class MainTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "ShowMainDetailView" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                if let aPlace = snapshots[indexPath.row].value as? Dictionary<String, AnyObject> {
-                    
-                    let backItem = UIBarButtonItem()
-                    let city = snapshots[indexPath.row].key.components(separatedBy: "-")
-                    backItem.title = city[0] + ", " + (aPlace["address"] as? String)!
-                    navigationItem.backBarButtonItem = backItem
-                    
-                    let likes = (aPlace["likes"] as? Int)!
-                    let reviews = (aPlace["reviews"] as? Int)!
-                    let images = (aPlace["images"] as? Int)!
-                    var stars_count:Int = Int()
-                    if (aPlace["stars_count"] as? Int) != nil {
-                        stars_count = (aPlace["stars_count"] as? Int)!
-                    }else {
-                        stars_count = 0
-                    }
-                    let name = (aPlace["name"] as? String)!
-                    let address = (aPlace["address"] as? String)!
-                    var img:UIImage = UIImage()
-                    
-                    if let anImage = aPlace["img"] as? String {
-                        if let imageurl = URL(string: anImage) {
-                            if let data = try? Data(contentsOf: imageurl){
-                                img = UIImage(data: data)!
+                if indexPath.row < snapshots.count {
+                    if let aPlace = snapshots[indexPath.row].value as? Dictionary<String, AnyObject> {
+                        
+                        let backItem = UIBarButtonItem()
+                        let city = snapshots[indexPath.row].key.components(separatedBy: "-")
+                        backItem.title = city[0] + ", " + (aPlace["address"] as? String)!
+                        navigationItem.backBarButtonItem = backItem
+                        
+                        let likes = (aPlace["likes"] as? Int)!
+                        let reviews = (aPlace["reviews"] as? Int)!
+                        let images = (aPlace["images"] as? Int)!
+                        var stars_count:Int = Int()
+                        if (aPlace["stars_count"] as? Int) != nil {
+                            stars_count = (aPlace["stars_count"] as? Int)!
+                        }else {
+                            stars_count = 0
+                        }
+                        let name = (aPlace["name"] as? String)!
+                        let address = (aPlace["address"] as? String)!
+                        var img:UIImage = UIImage()
+                        
+                        if let anImage = aPlace["img"] as? String {
+                            if let imageurl = URL(string: anImage) {
+                                if let data = try? Data(contentsOf: imageurl){
+                                    img = UIImage(data: data)!
+                                }else {
+                                    img = UIImage(named: "error_image")!
+                                }
                             }else {
                                 img = UIImage(named: "error_image")!
                             }
-                        }else {
+                        }else{
                             img = UIImage(named: "error_image")!
                         }
-                    }else{
-                        img = UIImage(named: "error_image")!
+                        
+                        let destinationViewController = segue.destination as! MainDetailTableViewController
+                        
+                        guard let place = Places(likes: likes, reviews: reviews, images: images, stars_count: stars_count, img: img, name: name, address: address)
+                            else {
+                                    fatalError("Unable to instantiate image data")
+                                }
+                        destinationViewController.place = place
                     }
-                    
-                    let destinationViewController = segue.destination as! MainDetailTableViewController
-                    
-                    guard let place = Places(likes: likes, reviews: reviews, images: images, stars_count: stars_count, img: img, name: name, address: address)
-                        else {
-                                fatalError("Unable to instantiate image data")
-                            }
-                    destinationViewController.place = place
                 }
             }
         }

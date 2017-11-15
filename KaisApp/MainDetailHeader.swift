@@ -14,8 +14,8 @@ class MainDetailHeader: UITableViewHeaderFooterView {
     
     func setupSegmentedControl(){
         imagesReviewsSegmentedControl.tintColor = UIColor(rgb: 0xFF9510)
-        imagesReviewsSegmentedControl.setTitle("Fotos", forSegmentAt: 1)
-        imagesReviewsSegmentedControl.setTitle("Reseñas", forSegmentAt: 2)
+        imagesReviewsSegmentedControl.setTitle("Fotos", forSegmentAt: 0)
+        imagesReviewsSegmentedControl.setTitle("Reseñas", forSegmentAt: 1)
     }
     
     func setupSegmentedControlUserProfile(){

@@ -90,7 +90,7 @@ class MainDetailTableViewCell: UITableViewCell {
         }
     }
     
-    func forDynamicCells(snapshot: DataSnapshot, place: Places, storage: StorageReference){
+    func forDynamicCells(snapshot: DataSnapshot, storage: StorageReference){
 
         detailLikesButton.contentMode = .center
         detailLikesButton.tintColor = UIColor.red
