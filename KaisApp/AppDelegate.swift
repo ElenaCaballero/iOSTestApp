@@ -15,7 +15,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     var window: UIWindow?
 
@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         authUI?.delegate = self as? FUIAuthDelegate
         
         GIDSignIn.sharedInstance().clientID = "222943743007-haq6i7t6inv3rb4flsfvtiljo4umn0jr.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().delegate = self
         
         if window?.rootViewController as? UITabBarController != nil {
             let tabBarController = window!.rootViewController as! UITabBarController
@@ -71,6 +72,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print("Hubo un error al hacer sign in: \(error.localizedDescription)")
+        }
+        else {
+            let authentication = user.authentication
+            let credentials = GoogleAuthProvider.credential(withIDToken: (authentication?.idToken)!, accessToken: (authentication?.accessToken)!)
+            Auth.auth().signIn(with: credentials, completion: { (user, error) in
+                if let error = error {
+                    print("Error al autenticarse: \(error.localizedDescription)")
+                    return
+                }else{
+                    print("Se ha autenticado correctamente")
+                }
+            })
+            
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
     }
     
 }

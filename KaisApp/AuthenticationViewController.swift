@@ -14,9 +14,7 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class AuthenticationViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
-    
-    
+class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate {
     
     // MARK: - Sign Up Scene
     @IBOutlet weak var usernameSignUpTextField: UITextField!
@@ -40,7 +38,6 @@ class AuthenticationViewController: UIViewController, GIDSignInDelegate, GIDSign
         self.hideKeyboardWhenTappedAround()
         
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signIn()
         GIDSignIn.sharedInstance().clientID = "222943743007-haq6i7t6inv3rb4flsfvtiljo4umn0jr.apps.googleusercontent.com"
 

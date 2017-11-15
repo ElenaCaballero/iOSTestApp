@@ -80,18 +80,36 @@ class UserProfileTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ShowImagesDetailViewUsers", sender: self)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "ShowImagesDetailViewUsers" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationViewController = segue.destination as! ImagesDetailViewController
+                destinationViewController.snap = snapshots[indexPath.row]
+                destinationViewController.storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
+            }
+        }
+    }
+    
     
     @IBAction func logOutAction(_ sender: Any) {
-        if Auth.auth().currentUser != nil {
-            do {
-                try Auth.auth().signOut()
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
-                self.present(vc!, animated: true, completion: nil)
-                
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        } 
+        do {
+            try Auth.auth().signOut()
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
+            self.present(vc!, animated: true, completion: nil)
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        GIDSignIn.sharedInstance().signOut()
     }
     
     // MARK: - Table view data source
