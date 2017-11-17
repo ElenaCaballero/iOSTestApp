@@ -26,7 +26,7 @@ class MainDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var barInfoLabels: UIStackView!
     @IBOutlet weak var barIconButtons: UIStackView!
     @IBOutlet weak var detailImages: UIImageView!
-    @IBOutlet weak var detailUsername: UILabel!
+    @IBOutlet weak var detailUsername: UIButton!
     @IBOutlet weak var detailDate: UILabel!
     @IBOutlet weak var detailLikesButton: UIButton!
     @IBOutlet weak var detailLikesLabel: UILabel!
@@ -34,14 +34,13 @@ class MainDetailTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        if detailLikesLabel != nil, detailImage != nil, likeLabel != nil, fotosLabel != nil, reviewsLabel != nil, starsLabel != nil, detailUsername != nil, detailDate != nil, detailImages != nil {
+        if detailLikesLabel != nil, detailImage != nil, likeLabel != nil, fotosLabel != nil, reviewsLabel != nil, starsLabel != nil, detailDate != nil, detailImages != nil {
             detailImage.image = nil
             likeLabel.text = ""
             fotosLabel.text = ""
             reviewsLabel.text = ""
             starsLabel.text = ""
             detailLikesLabel.text = ""
-            detailUsername.text = ""
             detailDate.text = ""
             detailImages.image = nil
         }
@@ -99,7 +98,8 @@ class MainDetailTableViewCell: UITableViewCell {
     }
     
     func forDynamicCells(snapshot: DataSnapshot, storage: StorageReference){
-
+        detailUsername.contentHorizontalAlignment = .left
+        
         detailLikesButton.contentMode = .center
         detailLikesButton.tintColor = UIColor.red
         detailLikesButton.setImage(UIImage(named: "emptyLike"), for: .normal)
@@ -123,7 +123,8 @@ class MainDetailTableViewCell: UITableViewCell {
             }
             if anImageData["uname"] as? String != nil {
                 theUName = (anImageData["uname"] as? String)!
-                self.detailUsername.text = "   " + theUName
+                self.detailUsername.setTitle("   " + theUName, for: .normal)
+                //self.detailUsername.text = "   " + theUName
             }
             if anImageData["timestamp"] as? TimeInterval != nil {
                 let t = anImageData["timestamp"] as? TimeInterval

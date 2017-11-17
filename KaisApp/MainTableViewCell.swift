@@ -22,10 +22,10 @@ class MainTableViewCell: UITableViewCell {
     //MARK: Images View outlets
     
     @IBOutlet weak var imagesImage: UIImageView!
-    @IBOutlet weak var imagesUsername: UILabel!
     @IBOutlet weak var imagesAddress_Date: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likesLabel: UILabel!
+    @IBOutlet weak var imagesUsername: UIButton!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -36,8 +36,7 @@ class MainTableViewCell: UITableViewCell {
             placesAddress.text = ""
         }
         
-        if imagesUsername != nil {
-            imagesUsername.text = ""
+        if imagesAddress_Date != nil {
             imagesImage.image = nil
             imagesAddress_Date.text = ""
             likesLabel.text = ""
@@ -112,7 +111,7 @@ class MainTableViewCell: UITableViewCell {
             }
             if anImageData["uname"] as? String != nil {
                 theUName = (anImageData["uname"] as? String)!
-                self.imagesUsername.text = "   " + theUName
+                self.imagesUsername.setTitle("   " + theUName, for: .normal)
             }
             if (anImageData["kaid"] as? String) != nil {
                 if anImageData["timestamp"] as? TimeInterval != nil {

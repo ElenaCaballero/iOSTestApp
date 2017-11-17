@@ -78,10 +78,10 @@ class MainDetailTableViewController: UITableViewController {
         present(fotosPopOver, animated: true, completion: nil)
     }
     
-    //MARK: - Navigation to Images Detail View and Reviews View
+    //MARK: - Navigation to Images Detail View and Reviews View and Users Profile View
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowImagesDetailViewMain", sender: self)
+        performSegue(withIdentifier: "showImagesDetailViewMain", sender: self)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -97,7 +97,7 @@ class MainDetailTableViewController: UITableViewController {
             reviewController.place = place
         }
         
-        if segue.identifier == "ShowImagesDetailViewMain" {
+        if segue.identifier == "showImagesDetailViewMain" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationViewController = segue.destination as! ImagesDetailViewController
                 destinationViewController.snap = snapshots[indexPath.row]
@@ -106,13 +106,13 @@ class MainDetailTableViewController: UITableViewController {
         }
         
         if segue.identifier == "showUserView" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destination as! UserProfileTableViewController
-                let thing = snapshots[indexPath.row].value as? Dictionary<String, AnyObject>
-                let uid = (thing!["uid"]  as! String)
-                print("USER ID: \(uid)")
-                destinationViewController.uid = uid
-            }
+            let destinationViewController = segue.destination as! ShowUserProfileTableViewController
+            let thing = snapshots[0].value as? Dictionary<String, AnyObject>
+            let backItem = UIBarButtonItem()
+            backItem.title = ((thing!["uname"] as! String))
+            navigationItem.backBarButtonItem = backItem
+            let uid = (thing!["uid"]  as! String)
+            destinationViewController.uid = uid
         }
     }
     
@@ -139,12 +139,10 @@ class MainDetailTableViewController: UITableViewController {
             return 1
         case 1:
             let placeName = place.name.removingWhitespaces()
-            print("placeName: \(placeName)")
             if snapshots.count > 0 {
                 for snap in snapshots {
                     let thing = snap.value as? Dictionary<String, AnyObject>
                     let token = (thing!["kaid"] as! String).components(separatedBy: "-")
-                    print("placeName: \(placeName) and kaid: \(token[0])")
                     if placeName.caseInsensitiveCompare(token[0]) == ComparisonResult.orderedSame {
                         countSnapshots += 1
                     }
@@ -181,7 +179,7 @@ class MainDetailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 300
+            return 400
         }
         return 200
     }

@@ -1,8 +1,8 @@
 //
-//  UserProfileTableViewController.swift
+//  ShowUserProfileTableViewController.swift
 //  KaisApp
 //
-//  Created by Elena Caballero on 11/13/17.
+//  Created by Elena Caballero on 11/17/17.
 //  Copyright © 2017 Elena Caballero. All rights reserved.
 //
 
@@ -16,14 +16,12 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class UserProfileTableViewController: UITableViewController {
+class ShowUserProfileTableViewController: UITableViewController {
     
     var rightBarButtonItem: UIBarButtonItem!
     
     var activityIndicatorView: UIActivityIndicatorView!
     let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
-    
-    var picker:UIImagePickerController?=UIImagePickerController()
     
     var uid:String = String()
     var snapshots = [DataSnapshot]()
@@ -31,35 +29,19 @@ class UserProfileTableViewController: UITableViewController {
     var userSnapshot = [DataSnapshot]()
     var users = DataSnapshot()
 
-    @IBOutlet var userProfileTableView: UITableView!
+    @IBOutlet var showUserProfileTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
-        userProfileTableView.backgroundView = activityIndicatorView
+        showUserProfileTableView.backgroundView = activityIndicatorView
         
         self.hideKeyboardWhenTappedAround()
         
-        if Auth.auth().currentUser != nil {
-            uid = (Auth.auth().currentUser?.uid)!
-            if Auth.auth().currentUser?.displayName != nil {
-                self.navigationItem.title = (Auth.auth().currentUser?.displayName)!
-            } else {
-                self.navigationItem.title = (Auth.auth().currentUser?.email)!
-            }
-        } else {
-            if let aUserData = users.value as? Dictionary<String, AnyObject> {
-                let userName = aUserData["uname"] as? String
-                self.navigationItem.title = userName
-            }else {
-                self.navigationItem.title = "UserName"
-            }
-        }
-        
-        userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        showUserProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,19 +49,17 @@ class UserProfileTableViewController: UITableViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor(rgb: 0x2390D4)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
-        tabBarController?.tabBar.barTintColor = UIColor(rgb: 0x2390D4)
-        tabBarController?.tabBar.tintColor = UIColor(rgb: 0xff9510)
         
         if snapshots.isEmpty {
             activityIndicatorView.startAnimating()
             
             dispatchQueue.async {
-                self.userProfileTableView.separatorStyle = .none
+                self.showUserProfileTableView.separatorStyle = .none
                 
                 Thread.sleep(forTimeInterval: 3)
                 
                 OperationQueue.main.addOperation() {
-                    self.userProfileTableView.separatorStyle = .singleLine
+                    self.showUserProfileTableView.separatorStyle = .singleLine
                     
                     self.loadImageContentForCells()
                     self.loadUserContent()
@@ -88,72 +68,13 @@ class UserProfileTableViewController: UITableViewController {
             
         }
     }
-    
-    // MARK: - Navigation
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowImagesDetailViewUsers", sender: self)
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        if segue.identifier == "ShowImagesDetailViewUsers" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destination as! ImagesDetailViewController
-                destinationViewController.snap = snapshots[indexPath.row]
-                destinationViewController.storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
-            }
-        }
-    }
-    
-    
-    @IBAction func logOutAction(_ sender: Any) {
-        print("Logging oout")
-        let alertController = UIAlertController(title: "Desconectar", message: "Está seguro que desea cerrar sesión?", preferredStyle: .alert)
-        
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            print("Ok button tapped")
-            if (FBSDKAccessToken.current()) != nil {
-                FBSDKLoginManager().logOut()
-                try! Auth.auth().signOut()
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
-                self.present(vc!, animated: true, completion: nil)
-            }else if GIDSignIn.sharedInstance().currentUser != nil {
-                GIDSignIn.sharedInstance().signOut()
-                try! Auth.auth().signOut()
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
-                self.present(vc!, animated: true, completion: nil)
-            }else{
-                do {
-                    try Auth.auth().signOut()
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
-                    self.present(vc!, animated: true, completion: nil)
-                    
-                } catch let error as NSError {
-                    print("Logging ouuuut\(error.localizedDescription)")
-                }
-            }
-        }
-        alertController.addAction(OKAction)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
-            print("Cancel button tapped");
-        }
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion:nil)
-        
-    }
-    
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -196,9 +117,9 @@ class UserProfileTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = self.userProfileTableView.dequeueReusableHeaderFooterView(withIdentifier: "MainDetailHeaderID")
+        let header = self.showUserProfileTableView.dequeueReusableHeaderFooterView(withIdentifier: "MainDetailHeaderID")
         if let mainDetailHeader = header as? MainDetailHeader{
-            mainDetailHeader.setupSegmentedControlUserProfile()
+            mainDetailHeader.setupSegmentedControl()
         }
         return header
     }
@@ -213,24 +134,22 @@ class UserProfileTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return (indexPath.section == 1)
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath) as! UserProfileTableViewCell
             
             for user in userSnapshot {
                 let userID = user.key
-                print(userID)
+                print(uid)
                 if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
                     users = user
                 }
             }
             
             if userSnapshot.count > 0 {
-                print("UserSnapshots greater than 0")
                 cell.forStaticCell(userId: uid, users: users, storageHero: storageHero, storageProfile: storageProfile)
             }else {
-                print("UserSnapshots less than 0")
                 cell.emptyStaticCell()
             }
             
@@ -256,34 +175,29 @@ class UserProfileTableViewController: UITableViewController {
         
         return cell
     }
-    
-    //MARK: - For opening gallery
 
-    @IBAction func userProfileButtonTouched(_ sender: Any) {
-        openGallery()
+    // MARK: - Navigation
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ShowImagesDetailViewUsers", sender: self)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func openGallery(){
-        picker!.allowsEditing = false
-        picker!.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        present(picker!, animated: true, completion: nil)
-    }
-    
-    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            let indexPath = tableView.indexPath(for: self.tableView)
-            let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath!) as! UserProfileTableViewCell
-            cell.setProfilePic(pickedImage: pickedImage)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "ShowImagesDetailViewUsers" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationViewController = segue.destination as! ImagesDetailViewController
+                destinationViewController.snap = snapshots[indexPath.row]
+                destinationViewController.storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
+            }
         }
-        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Database Connection
-
+    
     var ref: DatabaseReference!
     var storage: StorageReference!
     var storageHero: StorageReference!
@@ -297,7 +211,7 @@ class UserProfileTableViewController: UITableViewController {
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.snapshots = snapshots
                 self?.activityIndicatorView.stopAnimating()
-                self?.userProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                self?.showUserProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
             }
         }
     }
@@ -310,37 +224,9 @@ class UserProfileTableViewController: UITableViewController {
         ref.queryOrderedByKey().observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.userSnapshot = snapshots
-                self?.userProfileTableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.none)
+                self?.showUserProfileTableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.none)
             }
         }
     }
-    
-    //MARK: - Tabs Initializer
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        tabBarItem = UITabBarItem(title: "Perfil", image: UIImage(named: "user"), tag: 1)
-    }
 
-}
-
-//MARK: - For dismissing keyboard
-
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
-
-extension UITableView {
-    func indexPath(for view: UIView) -> IndexPath? {
-        let location = view.convert(CGPoint.zero, to: self)
-        return self.indexPathForRow(at: location)
-    }
 }

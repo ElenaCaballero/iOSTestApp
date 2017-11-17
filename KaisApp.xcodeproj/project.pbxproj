@@ -17,6 +17,7 @@
 		BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */; };
 		BDA1D7B11FB5228500E205C1 /* MainDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */; };
 		BDC2AFCF1FBE15FA0052F508 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F390CD851FA78DE400D50A9B /* Info.plist */; };
+		BDC2AFD11FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC2AFD01FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift */; };
 		BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */; };
 		BDD40B301FBA294A00C43741 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */; };
 		BDD40B321FBA2C2400C43741 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */; };
@@ -46,6 +47,7 @@
 		BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		BD69DC411FBCB258005B36D5 /* KaisApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KaisApp.entitlements; sourceTree = "<group>"; };
 		BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainDetailHeader.xib; sourceTree = "<group>"; };
+		BDC2AFD01FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUserProfileTableViewController.swift; sourceTree = "<group>"; };
 		BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				F3ECA29A1FABDA22004D16C9 /* ImagesTableViewController.swift */,
 				F3ECA2A21FABE0EB004D16C9 /* ImagesDetailViewController.swift */,
 				BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */,
+				BDC2AFD01FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift */,
 				BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */,
 				BD1749D71FB111CE0037C9CA /* Images_Data.swift */,
 				F39981161FAA768E00E04F30 /* Places.swift */,
@@ -335,6 +338,7 @@
 				BD01D52A1FB25E4900254267 /* PopAnimator.swift in Sources */,
 				BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */,
 				F39981171FAA768E00E04F30 /* Places.swift in Sources */,
+				BDC2AFD11FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

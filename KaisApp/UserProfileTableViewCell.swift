@@ -53,6 +53,17 @@ class UserProfileTableViewCell: UITableViewCell {
         }
     }
     
+    @IBAction func editButtonTouched(_ sender: Any) {
+        if aboutYouTextField.isUserInteractionEnabled == true {
+            aboutYouTextField.isUserInteractionEnabled = false
+            aboutYouButton.tintColor = UIColor.green
+        } else {
+            aboutYouTextField.isUserInteractionEnabled = true
+            aboutYouButton.tintColor = UIColor(rgb: 0xFF9510)
+        }
+    }
+    
+    
     func setProfilePic(pickedImage: UIImage) {
         userProfileImageButton.contentMode = .scaleAspectFit
         userProfileImageButton.setImage(pickedImage, for: .normal)
@@ -82,9 +93,6 @@ class UserProfileTableViewCell: UITableViewCell {
         followersIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         followersIconButton.contentMode = .center
         followersIconButton.setImage(UIImage(named: "followers"), for: .normal)
-        aboutYouButton.tintColor = UIColor.green
-        aboutYouButton.contentMode = .center
-        aboutYouButton.setImage(UIImage(named: "edit"), for: .normal)
     }
 
     func forStaticCell(userId: String, users: DataSnapshot, storageHero: StorageReference, storageProfile: StorageReference) {
@@ -107,9 +115,6 @@ class UserProfileTableViewCell: UITableViewCell {
         followersIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         followersIconButton.contentMode = .center
         followersIconButton.setImage(UIImage(named: "followers"), for: .normal)
-        aboutYouButton.tintColor = UIColor.green
-        aboutYouButton.contentMode = .center
-        aboutYouButton.setImage(UIImage(named: "edit"), for: .normal)
         
         var theBio: String = String()
         var theVisitors: Int = Int()
@@ -178,6 +183,10 @@ class UserProfileTableViewCell: UITableViewCell {
             
         }
         
+    }
+    
+    func emptyDynamicCell() {
+        TableViewHelper.EmptyCell(message: "Aún no hay imágenes que mostrar,\n agrega una y muestra la magia de tus viajes.", cell: self)
     }
     
     func forDynamicCells(snapshot: DataSnapshot, storage: StorageReference) {

@@ -49,10 +49,19 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             button.delegate = self
         }
         
-//        if Auth.auth().currentUser != nil {
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
-//            self.present(vc!, animated: true, completion: nil)
-//        }
+        checkIfUserIsSignedIn()
+        
+    }
+    
+    func checkIfUserIsSignedIn() {
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+                self.present(vc!, animated: true, completion: nil)
+            }else {
+                
+            }
+        }
     }
     
     //MARK:- Sign in with Google prompts
@@ -78,15 +87,12 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
                 
                 if error == nil {
                     print("Se ha creado un usuario correctamente")
-                    
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                     self.present(vc!, animated: true, completion: nil)
                 } else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(defaultAction)
-                    
                     self.present(alertController, animated: true, completion: nil)
                 }
             }
@@ -101,16 +107,13 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
         }else {
             Auth.auth().signIn(withEmail: emailSignInTextField.text!, password: passwordSignInTextField.text!, completion: { (user, error) in
                 if error == nil {
-                    print("Se ha autenticado correctamentes")
-                    
+                    print("Se ha autenticado correctamente")
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                     self.present(vc!, animated: true, completion: nil)
                 }else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(defaultAction)
-                    
                     self.present(alertController, animated: true, completion: nil)
                 }
             })
@@ -125,10 +128,8 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             Auth.auth().signIn(with: credential) { (user, error) in
                 if let error = error {
                     let alertController = UIAlertController(title: "Error de Autenticación", message: error.localizedDescription, preferredStyle: .alert)
-                    
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(defaultAction)
-                    
                     self.present(alertController, animated: true, completion: nil)
                     return
                 }

@@ -98,12 +98,13 @@ class ImagesTableViewController: UITableViewController {
         }
         
         if segue.identifier == "showUserView" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destination as! UserProfileTableViewController
-                let thing = snapshots[indexPath.row].value as? Dictionary<String, AnyObject>
-                let uid = (thing!["uid"]  as! String)
-                destinationViewController.uid = uid
-            }
+            let destinationViewController = segue.destination as! ShowUserProfileTableViewController
+            let thing = snapshots[0].value as? Dictionary<String, AnyObject>
+            let backItem = UIBarButtonItem()
+            backItem.title = ((thing!["uname"] as! String))
+            navigationItem.backBarButtonItem = backItem
+            let uid = (thing!["uid"]  as! String)
+            destinationViewController.uid = uid
         }
     }
 
