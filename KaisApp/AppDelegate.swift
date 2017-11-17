@@ -73,25 +73,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        // ...
         if let error = error {
-            // ...
+            print("Sign in error: \(error.localizedDescription)")
             return
+        }else{
+            guard let authentication = user.authentication else { return }
+            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            Auth.auth().signIn(with: credential) { (user, error) in
+                if let error = error {
+                    print("Error al autenticarse: \(error.localizedDescription)")
+                    return
+                }else{
+                    print("Se ha autenticado correctamente yay")
+                    let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "Home")
+                    
+                    self.window = UIWindow(frame: UIScreen.main.bounds)
+                    self.window?.rootViewController = vc
+                    self.window?.makeKeyAndVisible()
+                }
+            }
         }
-        
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                       accessToken: authentication.accessToken)
-        // ...
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
+        print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
     }
-    
-    
-    
     
     /*func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {

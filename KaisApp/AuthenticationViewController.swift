@@ -49,14 +49,24 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             button.delegate = self
         }
         
-        /*Auth.auth().addStateDidChangeListener() { auth, user in
-            if user != nil {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
-                self.present(vc!, animated: true, completion: nil)
-            }
-        }*/
-        
+//        if Auth.auth().currentUser != nil {
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+//            self.present(vc!, animated: true, completion: nil)
+//        }
     }
+    
+    //MARK:- Sign in with Google prompts
+    
+    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    
+    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK:- Email/Password Sign In/Up methods
     
     @IBAction func signUpAction(_ sender: Any) {
         if emailSignUpTextField.text == "" {
@@ -68,11 +78,9 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
                 
                 if error == nil {
                     print("Se ha creado un usuario correctamente")
-                    //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                     self.present(vc!, animated: true, completion: nil)
-                    
                 } else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                     
@@ -93,7 +101,7 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
         }else {
             Auth.auth().signIn(withEmail: emailSignInTextField.text!, password: passwordSignInTextField.text!, completion: { (user, error) in
                 if error == nil {
-                    print("Se ha autenticado correctamente")
+                    print("Se ha autenticado correctamentes")
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                     self.present(vc!, animated: true, completion: nil)
@@ -116,7 +124,7 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
             Auth.auth().signIn(with: credential) { (user, error) in
                 if let error = error {
-                    let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Error de Autenticación", message: error.localizedDescription, preferredStyle: .alert)
                     
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(defaultAction)
@@ -124,61 +132,15 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
                     self.present(alertController, animated: true, completion: nil)
                     return
                 }
+                
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                 self.present(vc!, animated: true, completion: nil)
-                // User is signed in
-                // ...
             }
         }
     }
 
-    
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        
+        print("Logged out of facebook")
     }
-    
-    
-    
-    //MARK:- Google Sign in methods
-    // Present a view that prompts the user to sign in with Google
-    func sign(_ signIn: GIDSignIn!,
-              present viewController: UIViewController!) {
-        self.present(viewController, animated: true, completion: nil)
-    }
-    
-    // Dismiss the "Sign in with Google" view
-    func sign(_ signIn: GIDSignIn!,
-              dismiss viewController: UIViewController!) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-   /* func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error {
-            print("Hubo un error al hacer sign in: \(error.localizedDescription)")
-        }
-        else {
-            let authentication = user.authentication
-            let credentials = GoogleAuthProvider.credential(withIDToken: (authentication?.idToken)!, accessToken: (authentication?.accessToken)!)
-            Auth.auth().signIn(with: credentials, completion: { (user, error) in
-                if let error = error {
-                    print("Error al autenticarse: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Error de Autenticación", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    
-                    return
-                }
-                
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
-                self.present(vc!, animated: true, completion: nil)
-            })
-            
-        }
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
-    }*/
     
 }
