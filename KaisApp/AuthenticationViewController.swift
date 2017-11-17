@@ -14,7 +14,8 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate {
+class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDKLoginButtonDelegate {
+    
     
     // MARK: - Sign Up Scene
     @IBOutlet weak var usernameSignUpTextField: UITextField!
@@ -29,24 +30,32 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSi
     
     // MARK: - Authenticate Scene
     @IBOutlet weak var emailAuth: UIButton!
-    @IBOutlet weak var facebookAuth: UIButton!
     @IBOutlet weak var googleAuth: GIDSignInButton!
+    @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "bg_login")
+        backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
         self.hideKeyboardWhenTappedAround()
         
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().signIn()
-        GIDSignIn.sharedInstance().clientID = "222943743007-haq6i7t6inv3rb4flsfvtiljo4umn0jr.apps.googleusercontent.com"
 
-        Auth.auth().addStateDidChangeListener() { auth, user in
+        if let button = self.fbLoginButton {
+            button.delegate = self
+        }
+        
+        /*Auth.auth().addStateDidChangeListener() { auth, user in
             if user != nil {
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                 self.present(vc!, animated: true, completion: nil)
             }
-        }
+        }*/
+        
     }
     
     @IBAction func signUpAction(_ sender: Any) {
@@ -77,20 +86,18 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSi
     }
     
     @IBAction func signInAction(_ sender: Any) {
-        
         if emailSignInTextField.text == "" || passwordSignInTextField.text == "" {
             let alert = UIAlertController(title: "Alerta", message: "Debe ingresar su correo electrónico y/o contraseña", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
         }else {
             Auth.auth().signIn(withEmail: emailSignInTextField.text!, password: passwordSignInTextField.text!, completion: { (user, error) in
-                if error != nil {
+                if error == nil {
                     print("Se ha autenticado correctamente")
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                     self.present(vc!, animated: true, completion: nil)
                 }else {
-                    
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                     
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -102,41 +109,50 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSi
         }
     }
     
-    @IBAction func facebookSignUp(_ sender: Any) {
-        
-        let fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
-            if let error = error {
-                print("Ha fallado ingresar: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let accessToken = FBSDKAccessToken.current() else {
-                print("Failed to get access token")
-                return
-            }
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-            
-            Auth.auth().signIn(with: credential, completion: { (user, error) in
+    //MARK:- FBSDKLoginButtonDelegate methods
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if(error == nil){
+            let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+            Auth.auth().signIn(with: credential) { (user, error) in
                 if let error = error {
-                    print("Error al autenticarse: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Error de Autenticación", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    self.present(alertController, animated: true, completion: nil)
+                    let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
                     
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                    
+                    self.present(alertController, animated: true, completion: nil)
                     return
                 }
-                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "Home") {
-                    UIApplication.shared.keyWindow?.rootViewController = viewController
-                    self.dismiss(animated: true, completion: nil)
-                }
-            })
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+                self.present(vc!, animated: true, completion: nil)
+                // User is signed in
+                // ...
+            }
         }
     }
+
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    
+    
+    //MARK:- Google Sign in methods
+    // Present a view that prompts the user to sign in with Google
+    func sign(_ signIn: GIDSignIn!,
+              present viewController: UIViewController!) {
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    // Dismiss the "Sign in with Google" view
+    func sign(_ signIn: GIDSignIn!,
+              dismiss viewController: UIViewController!) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+   /* func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("Hubo un error al hacer sign in: \(error.localizedDescription)")
         }
@@ -163,6 +179,6 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, GIDSi
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
-    }
+    }*/
     
 }

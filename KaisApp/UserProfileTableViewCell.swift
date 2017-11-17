@@ -45,6 +45,19 @@ class UserProfileTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func heartButtonTouched(_ sender: Any) {
+        if heartButton.currentImage == UIImage(named: "fullLike") {
+            heartButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        }else {
+            heartButton.setImage(UIImage(named: "fullLike"), for: .normal)
+        }
+    }
+    
+    func setProfilePic(pickedImage: UIImage) {
+        userProfileImageButton.contentMode = .scaleAspectFit
+        userProfileImageButton.setImage(pickedImage, for: .normal)
+    }
+    
     func emptyStaticCell() {
         heroImageView.image = UIImage(named: "hero_default")
         userProfileImageButton.frame = CGRect(x: 160, y: 100, width: 100, height: 100)
@@ -81,10 +94,6 @@ class UserProfileTableViewCell: UITableViewCell {
         userProfileImageButton.clipsToBounds = true
         userProfileImageButton.backgroundColor = .clear
         userProfileImageButton.setImage(UIImage(named: "default_user"), for: .normal)
-        fotosInfoLabel.text = "Fotos"
-        reviewsInfoLabel.text = "Reseñas"
-        visitedInfoLabel.text = "Visitas"
-        followersInfoLabel.text = "Seguidores"
         extraIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         fotosIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         fotosIconButton.contentMode = .center
@@ -117,21 +126,21 @@ class UserProfileTableViewCell: UITableViewCell {
             }
             if aUserData["images"] as? Int != nil {
                 theFotos = (aUserData["images"] as? Int)!
-                fotosInfoLabel.text = "\(theFotos) \nFotos"
+                //reviewsLabel.text = ("\(String(place.reviews!)) \nreseñas")
+                fotosInfoLabel.text = ("\(String(theFotos)) \nFotos")
             }
             if aUserData["reviews"] as? Int != nil {
                 theReviews = (aUserData["reviews"] as? Int)!
-                reviewsInfoLabel.text = "\(theReviews) \nReseñas"
+                reviewsInfoLabel.text = ("\(String(theReviews)) \nReseñas")
             }
             if aUserData["visited"] as? Int != nil {
                 theVisitors = (aUserData["visited"] as? Int)!
-                visitedInfoLabel.text = "\(theVisitors) \nVisitas"
+                visitedInfoLabel.text = ("\(String(theVisitors)) \nVisitas")
             }
             if aUserData["followers"] as? Int != nil {
                 theFollowers = (aUserData["followers"] as? Int)!
-                followersInfoLabel.text = "\(theFollowers) \nSeguidores"
+                followersInfoLabel.text = ("\(String(theFollowers)) \nSeguidores")
             }
-            
             
             let theURL = userId + ".jpg"
             let storageRefHero = storageHero.child(theURL)
@@ -222,11 +231,4 @@ class UserProfileTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func heartButtonTouched(_ sender: Any) {
-        if heartButton.currentImage == UIImage(named: "fullLike") {
-            heartButton.setImage(UIImage(named: "emptyLike"), for: .normal)
-        }else {
-            heartButton.setImage(UIImage(named: "fullLike"), for: .normal)
-        }
-    }
 }

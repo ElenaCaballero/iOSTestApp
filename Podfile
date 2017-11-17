@@ -12,7 +12,9 @@ target 'KaisApp' do
     pod 'Firebase/Storage'
     pod 'Firebase/Auth'
     pod 'GoogleSignIn'
-    pod 'FirebaseUI/Facebook'
     pod 'FirebaseUI', '~> 4.0'
+    pod 'Bolts'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKLoginKit'
     pod 'Cosmos', '~> 12.0.1'
 end

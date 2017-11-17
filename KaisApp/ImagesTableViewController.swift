@@ -96,6 +96,15 @@ class ImagesTableViewController: UITableViewController {
                 destinationViewController.storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
             }
         }
+        
+        if segue.identifier == "showUserView" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationViewController = segue.destination as! UserProfileTableViewController
+                let thing = snapshots[indexPath.row].value as? Dictionary<String, AnyObject>
+                let uid = (thing!["uid"]  as! String)
+                destinationViewController.uid = uid
+            }
+        }
     }
 
     //MARK: Tabs Initializer

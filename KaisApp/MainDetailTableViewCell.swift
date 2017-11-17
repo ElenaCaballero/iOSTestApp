@@ -54,7 +54,15 @@ class MainDetailTableViewCell: UITableViewCell {
             likeButton.setImage(UIImage(named: "fullLike"), for: .normal)
         }
     }
-
+    
+    @IBAction func detailLikeButtonTouched(_ sender: Any) {
+        if detailLikesButton.currentImage == UIImage(named: "fullLike") {
+            detailLikesButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        }else {
+            detailLikesButton.setImage(UIImage(named: "fullLike"), for: .normal)
+        }
+    }
+    
     func forStaticCell(place: Places){
         barInfoLabels.backgroundColor = UIColor.orange
         likeButton.contentMode = .center

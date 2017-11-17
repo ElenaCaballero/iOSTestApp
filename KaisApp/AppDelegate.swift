@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
             let tabBarController = window!.rootViewController as! UITabBarController
             tabBarController.selectedIndex = 2
         }
-        
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
@@ -65,16 +64,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any])
         -> Bool {
-        let handledG = GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
-
-        return handledG
+            if(GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])){
+                return true
+            }else if(FBSDKApplicationDelegate.sharedInstance().application(application, open: url, options: options)){
+                return true
+            }
+            return false
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        // ...
+        if let error = error {
+            // ...
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        // ...
     }
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+    
+    
+    
+    
+    /*func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("Hubo un error al hacer sign in: \(error.localizedDescription)")
         }
@@ -95,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
-    }
+    }*/
     
 }
 

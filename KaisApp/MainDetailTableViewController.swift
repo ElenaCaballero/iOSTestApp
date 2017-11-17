@@ -104,12 +104,33 @@ class MainDetailTableViewController: UITableViewController {
                 destinationViewController.storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
             }
         }
+        
+        if segue.identifier == "showUserView" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationViewController = segue.destination as! UserProfileTableViewController
+                let thing = snapshots[indexPath.row].value as? Dictionary<String, AnyObject>
+                let uid = (thing!["uid"]  as! String)
+                print("USER ID: \(uid)")
+                destinationViewController.uid = uid
+            }
+        }
     }
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if (indexPath.section == 1) {
+            return indexPath;
+        }
+        return nil;
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return (indexPath.section == 1)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -18,6 +18,8 @@ import FBSDKCoreKit
 
 class UserProfileTableViewController: UITableViewController {
     
+    var rightBarButtonItem: UIBarButtonItem!
+    
     var activityIndicatorView: UIActivityIndicatorView!
     let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
     
@@ -25,6 +27,7 @@ class UserProfileTableViewController: UITableViewController {
     
     var uid:String = String()
     var snapshots = [DataSnapshot]()
+    var imagesSnapshots = [DataSnapshot]()
     var userSnapshot = [DataSnapshot]()
     var users = DataSnapshot()
 
@@ -33,12 +36,33 @@ class UserProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //self.rightBarButtonItem = UIBarButtonItem(title: "Cerrar Sesión", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+        
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
         userProfileTableView.backgroundView = activityIndicatorView
         
         self.hideKeyboardWhenTappedAround()
+        
+        if Auth.auth().currentUser != nil {
+            uid = (Auth.auth().currentUser?.uid)!
+            if let aUserData = users.value as? Dictionary<String, AnyObject> {
+                let userName = aUserData["uname"] as? String
+                self.navigationItem.title = userName
+            }else {
+                self.navigationItem.title = "UserName"
+            }
+            //self.navigationItem.rightBarButtonItem = self.rightBarButtonItem
+        } else {
+            if let aUserData = users.value as? Dictionary<String, AnyObject> {
+                let userName = aUserData["uname"] as? String
+                self.navigationItem.title = userName
+            }else {
+                self.navigationItem.title = "UserName"
+            }
+            //self.navigationItem.rightBarButtonItem = self.rightBarButtonItem
+        }
         
         userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
     }
@@ -50,16 +74,6 @@ class UserProfileTableViewController: UITableViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         tabBarController?.tabBar.barTintColor = UIColor(rgb: 0x2390D4)
         tabBarController?.tabBar.tintColor = UIColor(rgb: 0xff9510)
-        
-        if Auth.auth().currentUser != nil {
-            uid = (Auth.auth().currentUser?.uid)!
-            if let aUserData = users.value as? Dictionary<String, AnyObject> {
-                let userName = aUserData["uname"] as? String
-                self.navigationItem.title = userName
-            }
-        } else {
-            self.navigationItem.title = "UserName"
-        }
         
         if snapshots.isEmpty {
             activityIndicatorView.startAnimating()
@@ -100,13 +114,20 @@ class UserProfileTableViewController: UITableViewController {
     
     
     @IBAction func logOutAction(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
+        print("Logging oout")
+        if (FBSDKAccessToken.current()) != nil {
+            FBSDKLoginManager().logOut()
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
             self.present(vc!, animated: true, completion: nil)
-            
-        } catch let error as NSError {
-            print(error.localizedDescription)
+        }else{
+            do {
+                try Auth.auth().signOut()
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Authenticate")
+                self.present(vc!, animated: true, completion: nil)
+                
+            } catch let error as NSError {
+                print("Logging ouuuut\(error.localizedDescription)")
+            }
         }
         
         GIDSignIn.sharedInstance().signOut()
@@ -130,6 +151,7 @@ class UserProfileTableViewController: UITableViewController {
                     let thing = snap.value as? Dictionary<String, AnyObject>
                     let userID = thing!["uid"] as! String
                     if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
+                        imagesSnapshots.append(snap)
                         countSnapshots += 1
                     }
                 }
@@ -165,6 +187,17 @@ class UserProfileTableViewController: UITableViewController {
         }
         return header
     }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if (indexPath.section == 1) {
+            return indexPath;
+        }
+        return nil;
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return (indexPath.section == 1)
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -188,10 +221,11 @@ class UserProfileTableViewController: UITableViewController {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
-        if indexPath.row >= snapshots.count {
+        
+        if indexPath.row >= imagesSnapshots.count {
             cell.backgroundColor = UIColor.black
         }else {
-            cell.forDynamicCells(snapshot: snapshots[indexPath.row], storage: storage)
+            cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
         }
         
         return cell
@@ -209,17 +243,18 @@ class UserProfileTableViewController: UITableViewController {
         present(picker!, animated: true, completion: nil)
     }
     
-//    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        dismiss(animated: true, completion: nil)
-//    }
-//
-//    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-//            userProfileImageButton.contentMode = .scaleAspectFit
-//            userProfileImageButton.setImage(pickedImage, for: .normal)
-//        }
-//        dismiss(animated: true, completion: nil)
-//    }
+    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            let indexPath = tableView.indexPath(for: self.tableView)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath!) as! UserProfileTableViewCell
+            cell.setProfilePic(pickedImage: pickedImage)
+        }
+        dismiss(animated: true, completion: nil)
+    }
 
     var ref: DatabaseReference!
     var storage: StorageReference!
@@ -247,7 +282,6 @@ class UserProfileTableViewController: UITableViewController {
         ref.queryOrderedByKey().observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.userSnapshot = snapshots
-                self?.activityIndicatorView.stopAnimating()
                 self?.userProfileTableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.none)
             }
         }
@@ -273,5 +307,12 @@ extension UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension UITableView {
+    func indexPath(for view: UIView) -> IndexPath? {
+        let location = view.convert(CGPoint.zero, to: self)
+        return self.indexPathForRow(at: location)
     }
 }

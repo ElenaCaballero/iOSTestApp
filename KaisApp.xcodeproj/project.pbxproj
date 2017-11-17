@@ -16,6 +16,7 @@
 		BD69DC3E1FBA51DF005B36D5 /* TableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */; };
 		BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */; };
 		BDA1D7B11FB5228500E205C1 /* MainDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */; };
+		BDC2AFCF1FBE15FA0052F508 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F390CD851FA78DE400D50A9B /* Info.plist */; };
 		BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */; };
 		BDD40B301FBA294A00C43741 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */; };
 		BDD40B321FBA2C2400C43741 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B311FBA2C2400C43741 /* UserProfileTableViewCell.swift */; };
@@ -225,6 +226,7 @@
 				F390CD811FA78DE400D50A9B /* Assets.xcassets in Resources */,
 				F390CD7F1FA78DE400D50A9B /* Main.storyboard in Resources */,
 				BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */,
+				BDC2AFCF1FBE15FA0052F508 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
