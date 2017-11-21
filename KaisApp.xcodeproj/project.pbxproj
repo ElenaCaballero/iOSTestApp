@@ -16,7 +16,6 @@
 		BD69DC3E1FBA51DF005B36D5 /* TableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3D1FBA51DF005B36D5 /* TableViewHelper.swift */; };
 		BD69DC401FBA5DFA005B36D5 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69DC3F1FBA5DFA005B36D5 /* AuthenticationViewController.swift */; };
 		BDA1D7B11FB5228500E205C1 /* MainDetailHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA1D7B01FB5228500E205C1 /* MainDetailHeader.xib */; };
-		BDC2AFCF1FBE15FA0052F508 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F390CD851FA78DE400D50A9B /* Info.plist */; };
 		BDC2AFD11FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC2AFD01FBF4E1A0052F508 /* ShowUserProfileTableViewController.swift */; };
 		BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDD40B2D1FB9F6A100C43741 /* GoogleService-Info.plist */; };
 		BDD40B301FBA294A00C43741 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD40B2F1FBA294A00C43741 /* UserProfileTableViewController.swift */; };
@@ -196,6 +195,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -229,7 +231,6 @@
 				F390CD811FA78DE400D50A9B /* Assets.xcassets in Resources */,
 				F390CD7F1FA78DE400D50A9B /* Main.storyboard in Resources */,
 				BDD40B2E1FB9F6A100C43741 /* GoogleService-Info.plist in Resources */,
-				BDC2AFCF1FBE15FA0052F508 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +275,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -287,6 +289,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",

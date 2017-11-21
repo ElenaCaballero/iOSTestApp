@@ -166,6 +166,7 @@ class ShowUserProfileTableViewController: UITableViewController {
                 cell.emptyDynamicCell()
             }else {
                 print("ImagesSnapshots greater than indexpath")
+                cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {

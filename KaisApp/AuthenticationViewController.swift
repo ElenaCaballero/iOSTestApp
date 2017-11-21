@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import FirebaseAuth
 import FirebaseAuthUI
 import GoogleSignIn
@@ -33,6 +34,8 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
     @IBOutlet weak var googleAuth: GIDSignInButton!
     @IBOutlet weak var fbLoginButton: FBSDKLoginButton!
     
+    var ref: DatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,13 +47,15 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
         self.hideKeyboardWhenTappedAround()
         
         GIDSignIn.sharedInstance().uiDelegate = self
+        if googleAuth != nil {
+            googleAuth.style = .wide
+        }
 
         if let button = self.fbLoginButton {
             button.delegate = self
         }
         
         checkIfUserIsSignedIn()
-        
     }
     
     func checkIfUserIsSignedIn() {
@@ -58,8 +63,6 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             if user != nil {
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                 self.present(vc!, animated: true, completion: nil)
-            }else {
-                
             }
         }
     }
@@ -83,19 +86,29 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
         } else {
-            Auth.auth().createUser(withEmail: emailSignUpTextField.text!, password: passwordSignUpTextField.text!) { (user, error) in
-                
-                if error == nil {
-                    print("Se ha creado un usuario correctamente")
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
-                    self.present(vc!, animated: true, completion: nil)
-                } else {
-                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.present(alertController, animated: true, completion: nil)
+            if usernameSignUpTextField.text == "" {
+                let alert = UIAlertController(title: "Alerta", message: "Debe ingresar un nombre de usuario", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }else {
+                Auth.auth().createUser(withEmail: emailSignUpTextField.text!, password: passwordSignUpTextField.text!) { (user, error) in
+                    if error == nil {
+                        print("Se ha creado un usuario correctamente")
+                        self.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+                        let values = ["followers": 0, "following": 0, "images": 0, "reviews": 0, "uname": self.usernameSignUpTextField.text as Any, "visited": 0 ] as [String : AnyObject]
+                        self.ref.child("users").child((user?.uid)!).setValue(values)
+                        
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+                        self.present(vc!, animated: true, completion: nil)
+                    } else {
+                        let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alertController.addAction(defaultAction)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
                 }
             }
+            
         }
     }
     
@@ -133,6 +146,14 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
                     self.present(alertController, animated: true, completion: nil)
                     return
                 }
+                self.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com").child("users").child((user?.uid)!)
+                let values = ["followers": 0, "following": 0, "images": 0, "reviews": 0, "uname": user?.displayName as Any, "visited": 0 ] as [String : AnyObject]
+                self.ref.updateChildValues(values, withCompletionBlock: { (error, reference) in
+                    if error != nil {
+                        print(error!)
+                        return
+                    }
+                })
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
                 self.present(vc!, animated: true, completion: nil)

@@ -11,6 +11,7 @@ target 'KaisApp' do
     pod 'Firebase/Database'
     pod 'Firebase/Storage'
     pod 'Firebase/Auth'
+    pod 'Firebase/Messaging'
     pod 'GoogleSignIn'
     pod 'FirebaseUI', '~> 4.0'
     pod 'Bolts'

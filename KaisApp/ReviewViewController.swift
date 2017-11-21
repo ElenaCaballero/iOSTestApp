@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
+
 import Cosmos
 
 class ReviewViewController: UIViewController, UITextViewDelegate {
@@ -18,7 +21,13 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
     
     var picker:UIImagePickerController?=UIImagePickerController()
     
+    var ref: DatabaseReference!
     var place: Places = Places()!
+    var placeSnapshot: DataSnapshot = DataSnapshot()
+    
+    let uid = Auth.auth().currentUser?.uid
+    var uname:String = String()
+    var reviewId:String = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +35,9 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.barTintColor = UIColor(rgb: 0x2390D4)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         
-        if starsReview.rating == 0.0 {
-            sendReview.isEnabled = false
-        }
-        
         contentReview.delegate = self
         
-        contentReview.text = "Placeholder"
+        contentReview.text = "Mensaje..."
         contentReview.textColor = UIColor.lightGray
         
         contentReview.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
@@ -50,9 +55,59 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
         self.openCamera(picker: picker!)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func sendReview(_ sender: Any) {
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        
+        var title:String = String()
+        if titleReview.text == "" {
+            title = ""
+        }else {
+            title = titleReview.text!
+        }
+        var message:String = String()
+        if contentReview.text == "Mensaje..." {
+            message = ""
+        }else {
+            message = contentReview.text!
+        }
+        let stars = Int(starsReview.rating)
+        let place = self.placeSnapshot.key
+        let timestamp = ServerValue.timestamp()
+        
+        var reviewsByUser = 1
+        let reviewsByPlace = 1 + self.place.reviews!
+        ref.child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                if value["uname"] as? String != nil {
+                    self.uname = (value["uname"] as? String)!
+                }else {
+                    self.uname = (Auth.auth().currentUser?.displayName)!
+                }
+                if value["reviews"] as? Int != nil {
+                    reviewsByUser += (value["reviews"] as? Int)!
+                }
+            }
+            
+            let reviewDataValues = ["kaid": place, "message": message as Any, "stars": stars, "timestamp": timestamp, "title": title as Any, "type": "place", "uid": self.uid as Any, "uname": self.uname] as [String : AnyObject]
+        
+            self.ref.child("reviews_data").childByAutoId().setValue(reviewDataValues)
+            
+            self.ref.child("users/\(self.uid!)/reviews").setValue(reviewsByUser)
+        })
+        
+        ref.child("reviews_data").queryLimited(toLast: 1).observe(.childAdded, with: { snapshot in
+            self.reviewId = snapshot.key
+            
+            self.ref.child("reviews/places/\(place)").setValue([self.reviewId: timestamp])
+            self.ref.child("reviews/users/\(self.uid!)/places/\(place)").setValue([self.reviewId: timestamp])
+
+            let placeValues = ["reviews":reviewsByPlace, "stars": stars]
+            self.ref.child("places/\(place)").setValue(placeValues)
+        })
+        
+        titleReview.text = ""
+        contentReview.text = "Mensaje..."
+        starsReview.rating = 0.0
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -68,15 +123,5 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

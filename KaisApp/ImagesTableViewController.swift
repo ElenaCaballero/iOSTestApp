@@ -19,6 +19,7 @@ class ImagesTableViewController: UITableViewController {
     
     var data = Images_Data()
     var snapshots = [DataSnapshot]()
+    var buttonIndexPath: IndexPath = IndexPath()
     
     var activityIndicatorView: UIActivityIndicatorView!
     
@@ -74,7 +75,8 @@ class ImagesTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of ImagesTableViewCell.")
         }
         
-        cell.imagesPlaces(snap: snapshots[indexPath.row], storage: storage)
+        cell.imagesSnapshot = snapshots[indexPath.row]
+        cell.imagesPlaces(storage: storage)
         
         return cell
     }
@@ -99,7 +101,11 @@ class ImagesTableViewController: UITableViewController {
         
         if segue.identifier == "showUserView" {
             let destinationViewController = segue.destination as! ShowUserProfileTableViewController
-            let thing = snapshots[0].value as? Dictionary<String, AnyObject>
+            if let button = sender as? UIButton {
+                let buttonPosition:CGPoint = button.convert(CGPoint.zero, to:self.tableView)
+                buttonIndexPath = self.tableView.indexPathForRow(at: buttonPosition)!
+            }
+            let thing = snapshots[buttonIndexPath.row].value as? Dictionary<String, AnyObject>
             let backItem = UIBarButtonItem()
             backItem.title = ((thing!["uname"] as! String))
             navigationItem.backBarButtonItem = backItem

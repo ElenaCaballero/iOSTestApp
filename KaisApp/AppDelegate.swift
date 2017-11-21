@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import FirebaseAuth
 import FirebaseAuthUI
 import GoogleSignIn
@@ -18,6 +19,7 @@ import FBSDKLoginKit
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     
     var window: UIWindow?
+    var ref: DatabaseReference!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -88,6 +90,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
                     return
                 }else{
                     print("Se ha autenticado correctamente yay")
+                    self.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com").child("users").child((user?.uid)!)
+                    let values = ["followers": 0, "following": 0, "images": 0, "reviews": 0, "uname": user?.displayName as Any, "visited": 0 ] as [String : AnyObject]
+                    self.ref.updateChildValues(values, withCompletionBlock: { (error, reference) in
+                        if error != nil {
+                            print(error!)
+                            return
+                        }
+                    })
+                    
                     let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "Home")
                     
@@ -102,29 +113,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
     }
-    
-    /*func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error {
-            print("Hubo un error al hacer sign in: \(error.localizedDescription)")
-        }
-        else {
-            let authentication = user.authentication
-            let credentials = GoogleAuthProvider.credential(withIDToken: (authentication?.idToken)!, accessToken: (authentication?.accessToken)!)
-            Auth.auth().signIn(with: credentials, completion: { (user, error) in
-                if let error = error {
-                    print("Error al autenticarse: \(error.localizedDescription)")
-                    return
-                }else{
-                    print("Se ha autenticado correctamente")
-                }
-            })
-            
-        }
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        print("Se ha desconectado de la aplicación: \(error.localizedDescription)")
-    }*/
     
 }
 

@@ -16,14 +16,14 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class UserProfileTableViewController: UITableViewController {
+class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var rightBarButtonItem: UIBarButtonItem!
     
     var activityIndicatorView: UIActivityIndicatorView!
     let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
     
-    var picker:UIImagePickerController?=UIImagePickerController()
+    var picker:UIImagePickerController? = UIImagePickerController()
     
     var uid:String = String()
     var snapshots = [DataSnapshot]()
@@ -36,6 +36,8 @@ class UserProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        picker?.delegate = self
+        
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
@@ -45,18 +47,17 @@ class UserProfileTableViewController: UITableViewController {
         
         if Auth.auth().currentUser != nil {
             uid = (Auth.auth().currentUser?.uid)!
-            if Auth.auth().currentUser?.displayName != nil {
-                self.navigationItem.title = (Auth.auth().currentUser?.displayName)!
-            } else {
-                self.navigationItem.title = (Auth.auth().currentUser?.email)!
-            }
-        } else {
-            if let aUserData = users.value as? Dictionary<String, AnyObject> {
-                let userName = aUserData["uname"] as? String
-                self.navigationItem.title = userName
-            }else {
-                self.navigationItem.title = "UserName"
-            }
+            ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com").child("users")
+            ref.child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                self.users = snapshot
+                if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                    if value["uname"] as? String != nil {
+                        self.navigationItem.title = (value["uname"] as? String)!
+                    }else {
+                        self.navigationItem.title = (Auth.auth().currentUser?.email)!
+                    }
+                }
+            })
         }
         
         userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
@@ -218,14 +219,6 @@ class UserProfileTableViewController: UITableViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath) as! UserProfileTableViewCell
             
-            for user in userSnapshot {
-                let userID = user.key
-                print(userID)
-                if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
-                    users = user
-                }
-            }
-            
             if userSnapshot.count > 0 {
                 print("UserSnapshots greater than 0")
                 cell.forStaticCell(userId: uid, users: users, storageHero: storageHero, storageProfile: storageProfile)
@@ -240,17 +233,19 @@ class UserProfileTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
         
         if imagesSnapshots.count > 0 {
-            print("ImagesSnapshots greater than 0")
+            print("ImagesSnapshots: %d", imagesSnapshots.count)
             if indexPath.row >= imagesSnapshots.count {
                 print("ImagesSnapshots less than indexpath")
                 cell.backgroundColor = UIColor.black
                 cell.emptyDynamicCell()
             }else {
                 print("ImagesSnapshots greater than indexpath")
+                cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {
             print("ImagesSnapshots less than 0")
+            print("ImagesSnapshots: %d", imagesSnapshots.count)
             cell.emptyDynamicCell()
         }
         
@@ -260,12 +255,9 @@ class UserProfileTableViewController: UITableViewController {
     //MARK: - For opening gallery
 
     @IBAction func userProfileButtonTouched(_ sender: Any) {
-        openGallery()
-    }
-    
-    func openGallery(){
         picker!.allowsEditing = false
-        picker!.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        picker!.sourceType = .photoLibrary
+        
         present(picker!, animated: true, completion: nil)
     }
     
@@ -277,7 +269,8 @@ class UserProfileTableViewController: UITableViewController {
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             let indexPath = tableView.indexPath(for: self.tableView)
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath!) as! UserProfileTableViewCell
-            cell.setProfilePic(pickedImage: pickedImage)
+            cell.userProfileImageButton.contentMode = .scaleAspectFit
+            cell.userProfileImageButton.setImage(pickedImage, for: .normal)
         }
         dismiss(animated: true, completion: nil)
     }

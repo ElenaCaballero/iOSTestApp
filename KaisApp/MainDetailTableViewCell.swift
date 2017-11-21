@@ -9,10 +9,15 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseStorage
+import FirebaseAuth
 
 class MainDetailTableViewCell: UITableViewCell {
     
     var storage: StorageReference!
+    var ref: DatabaseReference!
+    
+    var placesSnapshot: DataSnapshot!
+    var imagesSnapshot: DataSnapshot!
     
     @IBOutlet weak var detailImage: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
@@ -46,21 +51,50 @@ class MainDetailTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func likeButtonTouched(_ sender: Any) {
-        if likeButton.currentImage == UIImage(named: "fullLike") {
-            likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+    var checked = false
+    
+    @IBAction func likeButtonTouched(_ sender: UIButton) {
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        if checked {
+            let likesString = likeLabel.text?.components(separatedBy: "\n")
+            let newAmountLikes = Int(likesString![0])! - 1
+            let placeUID = placesSnapshot.key
+            ref.child("places/\(placeUID)/likes").setValue(newAmountLikes)
+            likeLabel.text = ("\(String(newAmountLikes))\nme gusta")
+            sender.setImage(UIImage(named: "emptyLike"), for: .normal)
+            checked = false
         }else {
-            likeButton.setImage(UIImage(named: "fullLike"), for: .normal)
+            let likesString = likeLabel.text?.components(separatedBy: "\n")
+            let newAmountLikes = Int(likesString![0])! + 1
+            let placeUID = placesSnapshot.key
+            ref.child("places/\(placeUID)/likes").setValue(newAmountLikes)
+            likeLabel.text = ("\(String(newAmountLikes))\nme gusta")
+            sender.setImage(UIImage(named: "fullLike"), for: .normal)
+            checked = true
         }
     }
     
-    @IBAction func detailLikeButtonTouched(_ sender: Any) {
-        if detailLikesButton.currentImage == UIImage(named: "fullLike") {
-            detailLikesButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+    var checkedDetail = false
+    
+    @IBAction func detailLikeButtonTouched(_ sender: UIButton) {
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        if checkedDetail {
+            let newAmountLikes = Int(detailLikesLabel.text!)! - 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            detailLikesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "emptyLike"), for: .normal)
+            checkedDetail = false
         }else {
-            detailLikesButton.setImage(UIImage(named: "fullLike"), for: .normal)
+            let newAmountLikes = Int(detailLikesLabel.text!)! + 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            detailLikesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "fullLike"), for: .normal)
+            checkedDetail = true
         }
     }
+    
     
     func forStaticCell(place: Places){
         barInfoLabels.backgroundColor = UIColor.orange
@@ -81,19 +115,19 @@ class MainDetailTableViewCell: UITableViewCell {
         if let placeImage = place.img {
             detailImage.image = placeImage
             
-            likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+            if !checked {
+                likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+            }else {
+                likeButton.setImage(UIImage(named: "fullLike"), for: .normal)
+            }
             fotosButton.setImage(UIImage(named: "camera"), for: .normal)
             reviewsButton.setImage(UIImage(named: "review"), for: .normal)
             starsButton.setImage(UIImage(named: "filledStar"), for: .normal)
             
-            likeLabel.text = ("\(String(place.likes!)) \nme gusta")
-            fotosLabel.text = ("\(String(place.images!)) \nfotos")
-            reviewsLabel.text = ("\(String(place.reviews!)) \nreseñas")
-            if place.stars_count! == 0 {
-                starsLabel.text = ("-- \nestrellas")
-            }else{
-                starsLabel.text = ("\(String(place.stars_count!)) \nestrellas")
-            }
+            likeLabel.text = ("\(String(place.likes!))\nme gusta")
+            fotosLabel.text = ("\(String(place.images!))\nfotos")
+            reviewsLabel.text = ("\(String(place.reviews!))\nreseñas")
+            starsLabel.text = ("\(String(place.stars_count!))\nestrellas")
         }
     }
     
@@ -102,7 +136,12 @@ class MainDetailTableViewCell: UITableViewCell {
         
         detailLikesButton.contentMode = .center
         detailLikesButton.tintColor = UIColor.red
-        detailLikesButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        if !checkedDetail {
+            detailLikesButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        }else {
+            detailLikesButton.setImage(UIImage(named: "fullLike"), for: .normal)
+        }
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd,YYYY"
         
@@ -124,7 +163,6 @@ class MainDetailTableViewCell: UITableViewCell {
             if anImageData["uname"] as? String != nil {
                 theUName = (anImageData["uname"] as? String)!
                 self.detailUsername.setTitle("   " + theUName, for: .normal)
-                //self.detailUsername.text = "   " + theUName
             }
             if anImageData["timestamp"] as? TimeInterval != nil {
                 let t = anImageData["timestamp"] as? TimeInterval

@@ -14,6 +14,9 @@ import FirebaseStorage
 
 class UserProfileTableViewCell: UITableViewCell {
     
+    var imagesSnapshot: DataSnapshot!
+    var ref: DatabaseReference!
+    
     @IBOutlet weak var heroImageView: UIImageView!
     @IBOutlet weak var fotosIconButton: UIButton!
     @IBOutlet weak var reviewsIconButton: UIButton!
@@ -45,11 +48,24 @@ class UserProfileTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func heartButtonTouched(_ sender: Any) {
-        if heartButton.currentImage == UIImage(named: "fullLike") {
-            heartButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+    var checkedDetail = false
+    
+    @IBAction func heartButtonTouched(_ sender: UIButton) {
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        if checkedDetail {
+            let newAmountLikes = Int(likesLabel.text!)! - 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            likesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "emptyLike"), for: .normal)
+            checkedDetail = false
         }else {
-            heartButton.setImage(UIImage(named: "fullLike"), for: .normal)
+            let newAmountLikes = Int(likesLabel.text!)! + 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            likesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "fullLike"), for: .normal)
+            checkedDetail = true
         }
     }
     
@@ -63,12 +79,6 @@ class UserProfileTableViewCell: UITableViewCell {
         }
     }
     
-    
-    func setProfilePic(pickedImage: UIImage) {
-        userProfileImageButton.contentMode = .scaleAspectFit
-        userProfileImageButton.setImage(pickedImage, for: .normal)
-    }
-    
     func emptyStaticCell() {
         heroImageView.image = UIImage(named: "hero_default")
         userProfileImageButton.frame = CGRect(x: 160, y: 100, width: 100, height: 100)
@@ -76,10 +86,10 @@ class UserProfileTableViewCell: UITableViewCell {
         userProfileImageButton.clipsToBounds = true
         userProfileImageButton.backgroundColor = .clear
         userProfileImageButton.setImage(UIImage(named: "default_user"), for: .normal)
-        fotosInfoLabel.text = "Fotos"
-        reviewsInfoLabel.text = "Reseñas"
-        visitedInfoLabel.text = "Visitas"
-        followersInfoLabel.text = "Seguidores"
+        fotosInfoLabel.text = "0 \nFotos"
+        reviewsInfoLabel.text = "0 \nReseñas"
+        visitedInfoLabel.text = "0 \nVisitas"
+        followersInfoLabel.text = "0 \nSeguidores"
         extraIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         fotosIconButton.backgroundColor = UIColor(rgb: 0xFF9510)
         fotosIconButton.contentMode = .center
@@ -131,7 +141,6 @@ class UserProfileTableViewCell: UITableViewCell {
             }
             if aUserData["images"] as? Int != nil {
                 theFotos = (aUserData["images"] as? Int)!
-                //reviewsLabel.text = ("\(String(place.reviews!)) \nreseñas")
                 fotosInfoLabel.text = ("\(String(theFotos)) \nFotos")
             }
             if aUserData["reviews"] as? Int != nil {
@@ -192,7 +201,12 @@ class UserProfileTableViewCell: UITableViewCell {
     func forDynamicCells(snapshot: DataSnapshot, storage: StorageReference) {
         heartButton.contentMode = .center
         heartButton.tintColor = UIColor.red
-        heartButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        if !checkedDetail {
+            heartButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        }else {
+            heartButton.setImage(UIImage(named: "fullLike"), for: .normal)
+        }
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd,YYYY"
         

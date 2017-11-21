@@ -17,7 +17,10 @@ class MainDetailTableViewController: UITableViewController {
     
     var place: Places = Places()!
     var snapshots = [DataSnapshot]()
+    var placeSnapshot:DataSnapshot = DataSnapshot()
     var countSnapshots = 0
+    
+    var buttonIndexPath: IndexPath = IndexPath()
     
     let transition = PopAnimator()
 
@@ -29,9 +32,11 @@ class MainDetailTableViewController: UITableViewController {
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
-        mainDetailTableView.backgroundView = activityIndicatorView
-        
-        mainDetailTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        if mainDetailTableView != nil {
+            mainDetailTableView.backgroundView = activityIndicatorView
+            
+            mainDetailTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,11 +68,13 @@ class MainDetailTableViewController: UITableViewController {
     //MARK: - Stars and Fotos PopUps
     
     @IBAction func starsButtonTouched(_ sender: Any) {
-        let starsPopOver = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "starsPopUp")
-        starsPopOver.transitioningDelegate = self as? UIViewControllerTransitioningDelegate
-        starsPopOver.modalPresentationStyle = .overFullScreen
-        starsPopOver.modalTransitionStyle = .crossDissolve
-        present(starsPopOver, animated: true, completion: nil)
+        let starsPopOver = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "starsPopUp") as? PopUpViewController
+        starsPopOver?.placeSnapshot = placeSnapshot
+        starsPopOver?.place = place
+        starsPopOver?.transitioningDelegate = self as? UIViewControllerTransitioningDelegate
+        starsPopOver?.modalPresentationStyle = .overFullScreen
+        starsPopOver?.modalTransitionStyle = .crossDissolve
+        present(starsPopOver!, animated: true, completion: nil)
     }
     
     @IBAction func fotosButtonTouched(_ sender: Any) {
@@ -95,6 +102,7 @@ class MainDetailTableViewController: UITableViewController {
             navigationItem.backBarButtonItem = backItem
             let reviewController = segue.destination as! ReviewViewController
             reviewController.place = place
+            reviewController.placeSnapshot = placeSnapshot
         }
         
         if segue.identifier == "showImagesDetailViewMain" {
@@ -107,7 +115,11 @@ class MainDetailTableViewController: UITableViewController {
         
         if segue.identifier == "showUserView" {
             let destinationViewController = segue.destination as! ShowUserProfileTableViewController
-            let thing = snapshots[0].value as? Dictionary<String, AnyObject>
+            if let button = sender as? UIButton {
+                let buttonPosition:CGPoint = button.convert(CGPoint.zero, to:self.tableView)
+                buttonIndexPath = self.tableView.indexPathForRow(at: buttonPosition)!
+            }
+            let thing = snapshots[buttonIndexPath.row].value as? Dictionary<String, AnyObject>
             let backItem = UIBarButtonItem()
             backItem.title = ((thing!["uname"] as! String))
             navigationItem.backBarButtonItem = backItem
@@ -115,6 +127,7 @@ class MainDetailTableViewController: UITableViewController {
             destinationViewController.uid = uid
         }
     }
+    
     
     // MARK: - Table view data source
 
@@ -161,6 +174,7 @@ class MainDetailTableViewController: UITableViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "mainArea", for: indexPath) as! MainDetailTableViewCell
             
+            cell.placesSnapshot = placeSnapshot
             cell.forStaticCell(place: place)
             
             return cell
@@ -171,6 +185,7 @@ class MainDetailTableViewController: UITableViewController {
         if indexPath.row >= snapshots.count{
             cell.backgroundColor = UIColor.black
         } else {
+            cell.imagesSnapshot = snapshots[indexPath.row]
             cell.forDynamicCells(snapshot: snapshots[indexPath.row], storage: storage)
         }
         

@@ -10,6 +10,7 @@ import UIKit
 import Cosmos
 import FirebaseDatabase
 import FirebaseStorage
+import FirebaseAuth
 
 class MainTableViewCell: UITableViewCell {
 
@@ -27,6 +28,11 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var imagesUsername: UIButton!
     
+    var ref: DatabaseReference!
+    
+    var placesSnapshot: DataSnapshot!
+    var imagesSnapshot: DataSnapshot!
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -43,20 +49,33 @@ class MainTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func likeButtonTouched(_ sender: Any) {
-        if likeButton.currentImage == UIImage(named: "fullLike") {
-            likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+    var checked = false
+    
+    @IBAction func likeButtonTouched(_ sender: UIButton) {
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        if checked {
+            let newAmountLikes = Int(likesLabel.text!)! - 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            likesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "emptyLike"), for: .normal)
+            checked = false
         }else {
-            likeButton.setImage(UIImage(named: "fullLike"), for: .normal)
+            let newAmountLikes = Int(likesLabel.text!)! + 1
+            let imageUID = imagesSnapshot.key
+            ref.child("images_data/\(imageUID)/likes").setValue(newAmountLikes)
+            likesLabel.text = ("\(String(newAmountLikes))")
+            sender.setImage(UIImage(named: "fullLike"), for: .normal)
+            checked = true
         }
     }
     
-    func mainPlaces(snap: DataSnapshot){
+    func mainPlaces(){
         var theImage: UIImage = UIImage()
         var theStars_Count: Int = Int()
         
-        if let aPlace = snap.value as? Dictionary<String, AnyObject> {
-            let city = snap.key.components(separatedBy: "-")
+        if let aPlace = placesSnapshot.value as? Dictionary<String, AnyObject> {
+            let city = placesSnapshot.key.components(separatedBy: "-")
             placesName.text = city[0]
             if aPlace["address"] as? String != nil {
                 placesAddress.text = (aPlace["address"] as? String)!
@@ -85,12 +104,16 @@ class MainTableViewCell: UITableViewCell {
         }
     }
     
-    func imagesPlaces(snap: DataSnapshot, storage: StorageReference){
+    func imagesPlaces(storage: StorageReference){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd,YYYY"
         likeButton.contentMode = .center
         likeButton.tintColor = UIColor.red
-        likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        if !checked {
+            likeButton.setImage(UIImage(named: "emptyLike"), for: .normal)
+        }else {
+            likeButton.setImage(UIImage(named: "fullLike"), for: .normal)
+        }
         
         var theImage: UIImage = UIImage()
         var theCity: String = String()
@@ -98,8 +121,8 @@ class MainTableViewCell: UITableViewCell {
         var theLikes: Int = Int()
         var theTime: NSDate = NSDate()
         
-        if let anImageData = snap.value as? Dictionary<String, AnyObject> {
-            let theImageURL = snap.key + ".jpg"
+        if let anImageData = imagesSnapshot.value as? Dictionary<String, AnyObject> {
+            let theImageURL = imagesSnapshot.key + ".jpg"
             let storageRef = storage.child(theImageURL)
             
             if anImageData["likes"] as? Int != nil {

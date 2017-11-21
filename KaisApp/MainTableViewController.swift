@@ -77,7 +77,8 @@ class MainTableViewController: UITableViewController {
         if indexPath.row >= snapshots.count{
             cell.backgroundColor = UIColor.black
         } else {
-            cell.mainPlaces(snap: snapshots[indexPath.row])
+            cell.placesSnapshot = snapshots[indexPath.row]
+            cell.mainPlaces()
         }
         
         return cell
@@ -137,6 +138,7 @@ class MainTableViewController: UITableViewController {
                                     fatalError("Unable to instantiate image data")
                                 }
                         destinationViewController.place = place
+                        destinationViewController.placeSnapshot = snapshots[indexPath.row]
                     }
                 }
             }
