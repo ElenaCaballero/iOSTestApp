@@ -41,8 +41,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
-        userProfileTableView.backgroundView = activityIndicatorView
-        
         self.hideKeyboardWhenTappedAround()
         
         if Auth.auth().currentUser != nil {
@@ -60,7 +58,12 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
             })
         }
         
-        userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        if userProfileTableView != nil {
+            userProfileTableView.backgroundView = activityIndicatorView
+            
+            userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,7 +119,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         let alertController = UIAlertController(title: "Desconectar", message: "Está seguro que desea cerrar sesión?", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            print("Ok button tapped")
             if (FBSDKAccessToken.current()) != nil {
                 FBSDKLoginManager().logOut()
                 try! Auth.auth().signOut()
@@ -141,7 +143,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         alertController.addAction(OKAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction!) in
-            print("Cancel button tapped");
+            print("Cancel button tapped")
         }
         alertController.addAction(cancelAction)
         
@@ -220,10 +222,8 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath) as! UserProfileTableViewCell
             
             if userSnapshot.count > 0 {
-                print("UserSnapshots greater than 0")
                 cell.forStaticCell(userId: uid, users: users, storageHero: storageHero, storageProfile: storageProfile)
             }else {
-                print("UserSnapshots less than 0")
                 cell.emptyStaticCell()
             }
             
@@ -233,19 +233,14 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
         
         if imagesSnapshots.count > 0 {
-            print("ImagesSnapshots: %d", imagesSnapshots.count)
             if indexPath.row >= imagesSnapshots.count {
-                print("ImagesSnapshots less than indexpath")
                 cell.backgroundColor = UIColor.black
                 cell.emptyDynamicCell()
             }else {
-                print("ImagesSnapshots greater than indexpath")
                 cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {
-            print("ImagesSnapshots less than 0")
-            print("ImagesSnapshots: %d", imagesSnapshots.count)
             cell.emptyDynamicCell()
         }
         

@@ -22,7 +22,6 @@ class ImagesDetailViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var zoomGesture: UIPinchGestureRecognizer!
-    @IBOutlet var imagesDetailView: UIView!
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var hearts: UIButton!
     @IBOutlet weak var imageDetail: UIImageView!
@@ -46,9 +45,9 @@ class ImagesDetailViewController: UIViewController, UIScrollViewDelegate {
         activityIndicatorView.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0);
         activityIndicatorView.activityIndicatorViewStyle =
             UIActivityIndicatorViewStyle.whiteLarge
-        activityIndicatorView.center = CGPoint(x: imagesDetailView.frame.size.width / 2,
-                                               y: imagesDetailView.frame.size.height / 2);
-        imagesDetailView.addSubview(activityIndicatorView)
+        activityIndicatorView.center = CGPoint(x: scrollView.frame.size.width / 2, y: scrollView.frame.size.height / 2)
+        
+        scrollView.addSubview(activityIndicatorView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +82,26 @@ class ImagesDetailViewController: UIViewController, UIScrollViewDelegate {
         navigationController?.popViewController(animated: true)
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let boundsSize = self.scrollView.bounds.size
+        var contentsFrame = self.imageDetail.frame
+        
+        if (contentsFrame.size.width < boundsSize.width) {
+            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
+        } else {
+            contentsFrame.origin.x = 0.0
+        }
+        
+        if (contentsFrame.size.height < boundsSize.height) {
+            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
+        } else {
+            contentsFrame.origin.y = 0.0
+        }
+        
+        imageDetail.frame = contentsFrame
+        
     }
     
     func setData() {

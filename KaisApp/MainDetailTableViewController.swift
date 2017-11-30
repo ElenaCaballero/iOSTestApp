@@ -98,7 +98,7 @@ class MainDetailTableViewController: UITableViewController {
         
         if segue.identifier == "showReview" {
             let backItem = UIBarButtonItem()
-            backItem.title = place.name + ", " + place.address!
+            backItem.title = place.name.capitalizingFirstLetter() + ", " + place.address!
             navigationItem.backBarButtonItem = backItem
             let reviewController = segue.destination as! ReviewViewController
             reviewController.place = place
@@ -261,5 +261,12 @@ extension MainDetailTableViewController: UIViewControllerAnimatedTransitioning {
 extension String {
     func removingWhitespaces() -> String {
         return components(separatedBy: .whitespaces).joined()
+    }
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

@@ -15,7 +15,6 @@
         <!--MainVC-->
         <scene sceneID="NRe-rt-E4t">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ryi-gU-vUH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="MainVC" id="ruB-oe-rJd" customClass="MainTableViewController" customModule="KaisApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pro-A3-fO5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -127,6 +126,7 @@
                         <segue destination="yNJ-Kr-7lY" kind="show" identifier="ShowMainDetailView" id="qFM-Jn-YIZ"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ryi-gU-vUH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1791.2" y="35.532233883058474"/>
         </scene>
@@ -421,7 +421,7 @@
         <scene sceneID="r3x-dV-MZ4">
             <objects>
                 <tableViewController storyboardIdentifier="ShowUserProfile" hidesBottomBarWhenPushed="YES" id="YOw-re-1Na" customClass="ShowUserProfileTableViewController" customModule="KaisApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="GN9-Fo-Lng">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="GN9-Fo-Lng">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -944,10 +944,10 @@
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Pcm-3T-Txa" userLabel="UsernameAddressAndDate">
-                                            <rect key="frame" x="0.0" y="132" width="375" height="68"/>
+                                            <rect key="frame" x="0.0" y="132" width="320" height="68"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bp3-ww-eeC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <state key="normal" title="Name"/>
@@ -955,8 +955,8 @@
                                                         <segue destination="YOw-re-1Na" kind="show" identifier="showUserView" id="eLq-p0-Zti"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcY-IN-ZkC">
-                                                    <rect key="frame" x="0.0" y="34" width="375" height="34"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcY-IN-ZkC">
+                                                    <rect key="frame" x="0.0" y="34" width="320" height="34"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -973,6 +973,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UsD-iT-tzV">
                                                     <rect key="frame" x="0.0" y="0.0" width="55" height="48.5"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal">
                                                         <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
@@ -982,11 +983,13 @@
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9va-qL-u0G">
                                                     <rect key="frame" x="0.0" y="48.5" width="55" height="19.5"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                         </stackView>
                                     </subviews>
                                     <constraints>
@@ -996,7 +999,7 @@
                                         <constraint firstItem="uk7-Xx-aAP" firstAttribute="centerY" secondItem="Zjt-eH-OCv" secondAttribute="centerY" id="BaV-kU-Ywp"/>
                                         <constraint firstItem="9Oy-DA-Bx8" firstAttribute="leading" secondItem="Zjt-eH-OCv" secondAttribute="leading" constant="320" id="F3h-pw-8S9"/>
                                         <constraint firstItem="uk7-Xx-aAP" firstAttribute="top" secondItem="Zjt-eH-OCv" secondAttribute="top" id="X6h-VN-BaE"/>
-                                        <constraint firstItem="Pcm-3T-Txa" firstAttribute="trailing" secondItem="uk7-Xx-aAP" secondAttribute="trailing" id="aEb-fc-kdJ"/>
+                                        <constraint firstItem="Pcm-3T-Txa" firstAttribute="trailing" secondItem="9Oy-DA-Bx8" secondAttribute="leading" id="aEb-fc-kdJ"/>
                                         <constraint firstAttribute="trailing" secondItem="uk7-Xx-aAP" secondAttribute="trailing" id="n3I-a9-z9m"/>
                                         <constraint firstItem="Pcm-3T-Txa" firstAttribute="leading" secondItem="uk7-Xx-aAP" secondAttribute="leading" id="vbo-eV-f4F"/>
                                         <constraint firstItem="9Oy-DA-Bx8" firstAttribute="top" secondItem="Pcm-3T-Txa" secondAttribute="top" id="wX2-YW-Qsn"/>
@@ -1037,7 +1040,7 @@
         <!--Delegate-->
         <scene sceneID="0fs-jc-W1k">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="L7G-Vy-BPM" customClass="ImagesDetailViewController" customModule="KaisApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageDetail" title="ImageDetail" hidesBottomBarWhenPushed="YES" id="L7G-Vy-BPM" customClass="ImagesDetailViewController" customModule="KaisApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qyv-yb-bPI" customClass="UIScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1080,7 +1083,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31j-Yc-cYy">
-                                <rect key="frame" x="0.0" y="25.5" width="0.0" height="20.5"/>
+                                <rect key="frame" x="0.0" y="25" width="0.0" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1099,7 +1102,7 @@
                             <constraint firstItem="wHf-p4-VU8" firstAttribute="leading" secondItem="0rd-bs-1uv" secondAttribute="leading" id="aov-Kf-ftf"/>
                             <constraint firstItem="gez-hI-i8R" firstAttribute="leading" secondItem="0rd-bs-1uv" secondAttribute="leading" id="bQo-IK-SZK"/>
                             <constraint firstItem="0rd-bs-1uv" firstAttribute="bottom" secondItem="wHf-p4-VU8" secondAttribute="bottom" id="r0f-Qd-PzU"/>
-                            <constraint firstItem="wHf-p4-VU8" firstAttribute="top" secondItem="qyv-yb-bPI" secondAttribute="top" id="sXv-bM-Awy"/>
+                            <constraint firstItem="wHf-p4-VU8" firstAttribute="top" secondItem="qyv-yb-bPI" secondAttribute="top" id="vJ5-Tk-xw6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0rd-bs-1uv"/>
                         <connections>
@@ -1112,7 +1115,6 @@
                         <outlet property="closeButton" destination="gez-hI-i8R" id="Kle-AW-s5g"/>
                         <outlet property="hearts" destination="RNK-Ud-Suv" id="uAu-pi-rcS"/>
                         <outlet property="imageDetail" destination="wHf-p4-VU8" id="tlb-QG-kdb"/>
-                        <outlet property="imagesDetailView" destination="qyv-yb-bPI" id="rZv-Yf-umd"/>
                         <outlet property="likesLabel" destination="27R-nH-Av3" id="YiW-SN-GIo"/>
                         <outlet property="scrollView" destination="qyv-yb-bPI" id="uYg-QA-0rX"/>
                         <outlet property="zoomGesture" destination="5PX-OE-b4E" id="Lhp-Pq-fvy"/>
@@ -1825,10 +1827,10 @@
         <image name="uploadedPictures" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fa8-aa-T76"/>
+        <segue reference="oAQ-bT-sHE"/>
         <segue reference="jZr-V1-vKb"/>
-        <segue reference="aOI-QZ-B0k"/>
-        <segue reference="Irm-56-vWa"/>
+        <segue reference="el9-z4-ojM"/>
+        <segue reference="eLq-p0-Zti"/>
         <segue reference="pIU-7U-Ayw"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

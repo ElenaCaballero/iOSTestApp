@@ -97,9 +97,11 @@ class MainTableViewCell: UITableViewCell {
                 theImage = UIImage(named: "error_image")!
                 placesImage.image = theImage
             }
-            if aPlace["stars_count"] as? Int != nil {
-                theStars_Count = (aPlace["stars_count"] as? Int)!
+            if aPlace["stars"] as? Int != nil {
+                theStars_Count = (aPlace["stars"] as? Int)!
                 cosmosView.rating = Double(theStars_Count)
+            }else {
+                cosmosView.rating = 0.0
             }
         }
     }
@@ -144,7 +146,8 @@ class MainTableViewCell: UITableViewCell {
                     theTime = NSDate()
                 }
                 theCity = (anImageData["kaid"] as? String)!
-                self.imagesAddress_Date.text = "   " + theCity + " - " + String(dateFormatter.string(from: (theTime as Date)  ) )
+                let city = theCity.components(separatedBy: "-")
+                self.imagesAddress_Date.text = "   " + city[0] + " - " + String(dateFormatter.string(from: (theTime as Date)  ) )
             }
             
             storageRef.getData(maxSize: 1 * 1024 * 1024, completion: { (data, error) in

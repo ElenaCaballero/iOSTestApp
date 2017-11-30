@@ -23,7 +23,7 @@ class ShowUserProfileTableViewController: UITableViewController {
     var activityIndicatorView: UIActivityIndicatorView!
     let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
     
-    var uid:String = String()
+    var uid:String = String() //usershown uid
     var snapshots = [DataSnapshot]()
     var imagesSnapshots = [DataSnapshot]()
     var userSnapshot = [DataSnapshot]()
@@ -37,11 +37,14 @@ class ShowUserProfileTableViewController: UITableViewController {
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.color = UIColor.black
         
-        showUserProfileTableView.backgroundView = activityIndicatorView
-        
         self.hideKeyboardWhenTappedAround()
         
-        showUserProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        if showUserProfileTableView != nil {
+            showUserProfileTableView.backgroundView = activityIndicatorView
+        
+            showUserProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +52,14 @@ class ShowUserProfileTableViewController: UITableViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor(rgb: 0x2390D4)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        
+        let barButton = UIButton(type: .custom)
+        barButton.setTitle("Seguir", for: .normal)
+        barButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        barButton.addTarget(self, action: #selector(followUser), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: barButton)
+        
+        self.navigationItem.setRightBarButton(item, animated: true)
         
         if snapshots.isEmpty {
             activityIndicatorView.startAnimating()
@@ -65,8 +76,71 @@ class ShowUserProfileTableViewController: UITableViewController {
                     self.loadUserContent()
                 }
             }
-            
         }
+        
+        for user in userSnapshot {
+            let userID = user.key
+            if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
+                users = user
+            }
+        }
+    }
+    
+    @objc func followUser(){
+        print("Seguir usuario")
+        //DONEcambiar en el userauth el numero de following que tiene
+        //DONEcambiar en el user shown el numero de followers que tiene
+        //en follows para userauth:
+        //  si ya está el userid del userauth, agregar a sus following: userid y uname de user shown
+        //  sino, agregar el userid del userauth, y agregar a sus following: userid y uname de user shown
+        //en follows para user shown:
+        //  si ya está el userid del usershown, agregar al userid del user shown a sus followers: userid y uname de userauth
+        //  sino, agregar al userid del user shown a sus followers: userid y uname de userauth
+        
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        
+        let userAuthUID = (Auth.auth().currentUser?.uid)!
+        var userAuthUName:String = String()
+        var following:Int = Int()
+        ref.child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            self.users = snapshot
+            if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                if value["uname"] as? String != nil {
+                    userAuthUName = (value["uname"] as? String)!
+                }else {
+                    userAuthUName = (Auth.auth().currentUser?.email)!
+                }
+                if value["following"] as? Int != nil {
+                    following = (value["following"] as? Int)! + 1
+                }else {
+                    following = 1
+                }
+            }
+        })
+        
+        ref.child("users/\(userAuthUID)/following").setValue(following)
+        
+        let userShownID = uid
+        var userShownUName:String = String()
+        var followers:Int = Int()
+        
+        if let value = users.value as? Dictionary<String, AnyObject> {
+            if value["uname"] as? String != nil {
+                userShownUName = (value["uname"] as? String)!
+            }else {
+                userShownUName = (Auth.auth().currentUser?.email)!
+            }
+            if value["followers"] as? Int != nil {
+                followers = (value["followers"] as? Int)! + 1
+            }else {
+                followers = 1
+            }
+        }
+        
+        ref.child("users/\(userShownID)/following").setValue(followers)
+        
+        
+        
     }
 
     // MARK: - Table view data source
@@ -139,14 +213,6 @@ class ShowUserProfileTableViewController: UITableViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath) as! UserProfileTableViewCell
             
-            for user in userSnapshot {
-                let userID = user.key
-                print(uid)
-                if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
-                    users = user
-                }
-            }
-            
             if userSnapshot.count > 0 {
                 cell.forStaticCell(userId: uid, users: users, storageHero: storageHero, storageProfile: storageProfile)
             }else {
@@ -159,18 +225,14 @@ class ShowUserProfileTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
         
         if imagesSnapshots.count > 0 {
-            print("ImagesSnapshots greater than 0")
             if indexPath.row >= imagesSnapshots.count {
-                print("ImagesSnapshots less than indexpath")
                 cell.backgroundColor = UIColor.black
                 cell.emptyDynamicCell()
             }else {
-                print("ImagesSnapshots greater than indexpath")
                 cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {
-            print("ImagesSnapshots less than 0")
             cell.emptyDynamicCell()
         }
         
@@ -211,7 +273,7 @@ class ShowUserProfileTableViewController: UITableViewController {
         ref.queryOrdered(byChild: "timestamp").observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.snapshots = snapshots
-                self?.activityIndicatorView.stopAnimating()
+                
                 self?.showUserProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
             }
         }
@@ -225,6 +287,7 @@ class ShowUserProfileTableViewController: UITableViewController {
         ref.queryOrderedByKey().observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.userSnapshot = snapshots
+                self?.activityIndicatorView.stopAnimating()
                 self?.showUserProfileTableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.none)
             }
         }

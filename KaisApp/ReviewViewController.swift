@@ -89,7 +89,6 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
             }
             
             let reviewDataValues = ["kaid": place, "message": message as Any, "stars": stars, "timestamp": timestamp, "title": title as Any, "type": "place", "uid": self.uid as Any, "uname": self.uname] as [String : AnyObject]
-        
             self.ref.child("reviews_data").childByAutoId().setValue(reviewDataValues)
             
             self.ref.child("users/\(self.uid!)/reviews").setValue(reviewsByUser)
@@ -98,11 +97,11 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
         ref.child("reviews_data").queryLimited(toLast: 1).observe(.childAdded, with: { snapshot in
             self.reviewId = snapshot.key
             
-            self.ref.child("reviews/places/\(place)").setValue([self.reviewId: timestamp])
-            self.ref.child("reviews/users/\(self.uid!)/places/\(place)").setValue([self.reviewId: timestamp])
+            self.ref.child("reviews/places/\(place)/\(self.reviewId)").setValue(timestamp)
+            self.ref.child("reviews/users/\(self.uid!)/places/\(place)/\(self.reviewId)").setValue(timestamp)
 
-            let placeValues = ["reviews":reviewsByPlace, "stars": stars]
-            self.ref.child("places/\(place)").setValue(placeValues)
+            self.ref.child("places/\(place)/reviews").setValue(reviewsByPlace)
+            self.ref.child("places/\(place)/stars").setValue(stars)
         })
         
         titleReview.text = ""

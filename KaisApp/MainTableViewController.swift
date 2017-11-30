@@ -104,12 +104,27 @@ class MainTableViewController: UITableViewController {
                         backItem.title = city[0] + ", " + (aPlace["address"] as? String)!
                         navigationItem.backBarButtonItem = backItem
                         
-                        let likes = (aPlace["likes"] as? Int)!
-                        let reviews = (aPlace["reviews"] as? Int)!
-                        let images = (aPlace["images"] as? Int)!
+                        var likes:Int = Int()
+                        if (aPlace["likes"] as? Int) != nil {
+                            likes = (aPlace["likes"] as? Int)!
+                        }else {
+                            likes = 0
+                        }
+                        var reviews:Int = Int()
+                        if (aPlace["reviews"] as? Int) != nil {
+                            reviews = (aPlace["reviews"] as? Int)!
+                        }else {
+                            reviews = 0
+                        }
+                        var images:Int = Int()
+                        if (aPlace["images"] as? Int) != nil {
+                            images = (aPlace["images"] as? Int)!
+                        }else {
+                            images = 0
+                        }
                         var stars_count:Int = Int()
-                        if (aPlace["stars_count"] as? Int) != nil {
-                            stars_count = (aPlace["stars_count"] as? Int)!
+                        if (aPlace["stars"] as? Int) != nil {
+                            stars_count = (aPlace["stars"] as? Int)!
                         }else {
                             stars_count = 0
                         }
