@@ -23,7 +23,7 @@ class ShowUserProfileTableViewController: UITableViewController {
     var activityIndicatorView: UIActivityIndicatorView!
     let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
     
-    var uid:String = String() //usershown uid
+    var uid:String = String() 
     var snapshots = [DataSnapshot]()
     var imagesSnapshots = [DataSnapshot]()
     var userSnapshot = [DataSnapshot]()
@@ -78,12 +78,7 @@ class ShowUserProfileTableViewController: UITableViewController {
             }
         }
         
-        for user in userSnapshot {
-            let userID = user.key
-            if uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
-                users = user
-            }
-        }
+        
     }
     
     @objc func followUser(){
@@ -102,8 +97,14 @@ class ShowUserProfileTableViewController: UITableViewController {
         let userAuthUID = (Auth.auth().currentUser?.uid)!
         var userAuthUName:String = String()
         var following:Int = Int()
-        ref.child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            self.users = snapshot
+        
+        let userShownID = uid
+        var userShownUName:String = String()
+        var followers:Int = Int()
+        
+        ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            //getting auth info
             if let value = snapshot.value as? Dictionary<String, AnyObject> {
                 if value["uname"] as? String != nil {
                     userAuthUName = (value["uname"] as? String)!
@@ -116,31 +117,52 @@ class ShowUserProfileTableViewController: UITableViewController {
                     following = 1
                 }
             }
+            
+            //getting shown info
+            print("HELLo: \(self.users)")
+            if let value = self.users.value as? Dictionary<String, AnyObject> {
+                if value["uname"] as? String != nil {
+                    userShownUName = (value["uname"] as? String)!
+                    print("HELLo: \((value["uname"] as? String)!)")
+                }else {
+                    userShownUName = (Auth.auth().currentUser?.email)!
+                }
+                if value["followers"] as? Int != nil {
+                    followers = (value["followers"] as? Int)! + 1
+                }else {
+                    followers = 1
+                }
+                print("ShownUname: \(userShownUName), followers: \(followers)")
+            }
+            
+            //setting following of auth user
+            self.ref.child("users/\(userAuthUID)/following").setValue(following)
+            
+            let userShown = ["\(userShownID)": userShownUName]
+            
+            //setting following of userauth
+            self.ref.child("follows").observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.key.compare(userAuthUID) == ComparisonResult.orderedSame {
+                    self.ref.child("follows/\(userAuthUID)/following/\(userShownID)").setValue(userShownUName)
+                }else {
+                    self.ref.child("follows").child(userAuthUID).child("following").setValue(userShown)
+                }
+            })
+            
+            //setting followers user shown
+            self.ref.child("users/\(userShownID)/followers").setValue(followers)
+            
+            let userAuth = ["\(userAuthUID)": userAuthUName]
+            
+            //setting followers usershown
+            self.ref.child("follows").observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.key.compare(userShownID) == ComparisonResult.orderedSame {
+                    self.ref.child("follows/\(userShownID)/followers").setValue(userAuth)
+                }else {
+                    self.ref.child("follows").child(userShownID).child("followers").setValue(userAuth)
+                }
+            })
         })
-        
-        ref.child("users/\(userAuthUID)/following").setValue(following)
-        
-        let userShownID = uid
-        var userShownUName:String = String()
-        var followers:Int = Int()
-        
-        if let value = users.value as? Dictionary<String, AnyObject> {
-            if value["uname"] as? String != nil {
-                userShownUName = (value["uname"] as? String)!
-            }else {
-                userShownUName = (Auth.auth().currentUser?.email)!
-            }
-            if value["followers"] as? Int != nil {
-                followers = (value["followers"] as? Int)! + 1
-            }else {
-                followers = 1
-            }
-        }
-        
-        ref.child("users/\(userShownID)/following").setValue(followers)
-        
-        
-        
     }
 
     // MARK: - Table view data source
@@ -287,6 +309,12 @@ class ShowUserProfileTableViewController: UITableViewController {
         ref.queryOrderedByKey().observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
                 self?.userSnapshot = snapshots
+                for user in snapshots {
+                    let userID = user.key
+                    if self?.uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
+                        self?.users = user
+                    }
+                }
                 self?.activityIndicatorView.stopAnimating()
                 self?.showUserProfileTableView.reloadSections(IndexSet.init(integer: 0), with: UITableViewRowAnimation.none)
             }

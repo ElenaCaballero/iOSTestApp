@@ -1634,13 +1634,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toca una estrella para evaluar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyE-Cd-eft">
-                                <rect key="frame" x="0.0" y="64" width="375" height="20.5"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleAspectFit" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="YpS-CW-czO" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="0.0" y="92.5" width="370" height="70"/>
+                                <rect key="frame" x="0.0" y="49" width="370" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="starSize">
@@ -1667,7 +1667,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Título" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wel-UL-Z2a">
-                                <rect key="frame" x="16" y="170.5" width="343" height="31"/>
+                                <rect key="frame" x="16" y="127" width="343" height="31"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="scl-DM-NAJ"/>
@@ -1677,7 +1677,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yft-d3-m88">
-                                <rect key="frame" x="16" y="209.5" width="343" height="338"/>
+                                <rect key="frame" x="16" y="166" width="343" height="338"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="338" id="69s-aD-snU"/>
@@ -1686,7 +1686,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yt9-BP-ZXt">
-                                <rect key="frame" x="16" y="555.5" width="343" height="60"/>
+                                <rect key="frame" x="16" y="512" width="343" height="60"/>
                                 <color key="backgroundColor" red="0.99646371603012085" green="0.58648604154586792" blue="0.069411702454090118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="m53-3Y-rFc"/>
