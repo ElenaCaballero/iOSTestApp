@@ -82,16 +82,6 @@ class ShowUserProfileTableViewController: UITableViewController {
     }
     
     @objc func followUser(){
-        print("Seguir usuario")
-        //DONEcambiar en el userauth el numero de following que tiene
-        //DONEcambiar en el user shown el numero de followers que tiene
-        //en follows para userauth:
-        //  si ya está el userid del userauth, agregar a sus following: userid y uname de user shown
-        //  sino, agregar el userid del userauth, y agregar a sus following: userid y uname de user shown
-        //en follows para user shown:
-        //  si ya está el userid del usershown, agregar al userid del user shown a sus followers: userid y uname de userauth
-        //  sino, agregar al userid del user shown a sus followers: userid y uname de userauth
-        
         ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
         
         let userAuthUID = (Auth.auth().currentUser?.uid)!
@@ -102,7 +92,7 @@ class ShowUserProfileTableViewController: UITableViewController {
         var userShownUName:String = String()
         var followers:Int = Int()
         
-        ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             
             //getting auth info
             if let value = snapshot.value as? Dictionary<String, AnyObject> {
@@ -119,11 +109,9 @@ class ShowUserProfileTableViewController: UITableViewController {
             }
             
             //getting shown info
-            print("HELLo: \(self.users)")
-            if let value = self.users.value as? Dictionary<String, AnyObject> {
+            if let value = self?.users.value as? Dictionary<String, AnyObject> {
                 if value["uname"] as? String != nil {
                     userShownUName = (value["uname"] as? String)!
-                    print("HELLo: \((value["uname"] as? String)!)")
                 }else {
                     userShownUName = (Auth.auth().currentUser?.email)!
                 }
@@ -132,36 +120,48 @@ class ShowUserProfileTableViewController: UITableViewController {
                 }else {
                     followers = 1
                 }
-                print("ShownUname: \(userShownUName), followers: \(followers)")
             }
             
             //setting following of auth user
-            self.ref.child("users/\(userAuthUID)/following").setValue(following)
+            self?.ref.child("users/\(userAuthUID)/following").setValue(following)
             
             let userShown = ["\(userShownID)": userShownUName]
             
             //setting following of userauth
-            self.ref.child("follows").observeSingleEvent(of: .value, with: { (snapshot) in
-                if snapshot.key.compare(userAuthUID) == ComparisonResult.orderedSame {
-                    self.ref.child("follows/\(userAuthUID)/following/\(userShownID)").setValue(userShownUName)
-                }else {
-                    self.ref.child("follows").child(userAuthUID).child("following").setValue(userShown)
+            self?.ref.child("follows").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                    if snap.keys.contains(userAuthUID) {
+                        self?.ref.child("follows/\(userAuthUID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                            if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                                if snap.keys.contains(userShownID) {
+                                    self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
+                                }else {
+                                    self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
+                                }
+                            }
+                        })
+                    }else {
+                       self?.ref.child("follows").child(userAuthUID).child("following").setValue(userShown)
+                    }
                 }
             })
             
             //setting followers user shown
-            self.ref.child("users/\(userShownID)/followers").setValue(followers)
+            self?.ref.child("users/\(userShownID)/followers").setValue(followers)
             
             let userAuth = ["\(userAuthUID)": userAuthUName]
             
             //setting followers usershown
-            self.ref.child("follows").observeSingleEvent(of: .value, with: { (snapshot) in
-                if snapshot.key.compare(userShownID) == ComparisonResult.orderedSame {
-                    self.ref.child("follows/\(userShownID)/followers").setValue(userAuth)
-                }else {
-                    self.ref.child("follows").child(userShownID).child("followers").setValue(userAuth)
+            self?.ref.child("follows/\(userShownID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                    if snap.keys.contains(userAuthUID) {
+                        self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
+                    }else {
+                        self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
+                    }
                 }
             })
+                
         })
     }
 
