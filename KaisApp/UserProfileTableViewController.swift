@@ -43,23 +43,16 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         
         self.hideKeyboardWhenTappedAround()
         
-        if Auth.auth().currentUser != nil {
-            uid = (Auth.auth().currentUser?.uid)!
-            ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com").child("users")
-            ref.child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                self.users = snapshot
-                if let value = snapshot.value as? Dictionary<String, AnyObject> {
-                    if value["uname"] as? String != nil {
-                        self.navigationItem.title = (value["uname"] as? String)!
-                    }else {
-                        self.navigationItem.title = (Auth.auth().currentUser?.email)!
-                    }
-                }
-            })
-        }
         
         if userProfileTableView != nil {
-            userProfileTableView.backgroundView = activityIndicatorView
+            userProfileTableView.addSubview(activityIndicatorView)
+            activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+            activityIndicatorView.hidesWhenStopped = true
+            activityIndicatorView.color = UIColor.black
+            let horizontalConstraint = NSLayoutConstraint(item: activityIndicatorView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            userProfileTableView.addConstraint(horizontalConstraint)
+            let verticalConstraint = NSLayoutConstraint(item: activityIndicatorView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+            userProfileTableView.addConstraint(verticalConstraint)
             
             userProfileTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
         }
@@ -87,6 +80,21 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
                     
                     self.loadImageContentForCells()
                     self.loadUserContent()
+                    
+                    if Auth.auth().currentUser != nil {
+                        self.uid = (Auth.auth().currentUser?.uid)!
+                        self.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com").child("users")
+                        self.ref.child(self.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                            self.users = snapshot
+                            if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                                if value["uname"] as? String != nil {
+                                    self.navigationItem.title = (value["uname"] as? String)!
+                                }else {
+                                    self.navigationItem.title = (Auth.auth().currentUser?.email)!
+                                }
+                            }
+                        })
+                    }
                 }
             }
             
@@ -115,7 +123,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
     
     @IBAction func logOutAction(_ sender: Any) {
-        print("Logging oout")
         let alertController = UIAlertController(title: "Desconectar", message: "Está seguro que desea cerrar sesión?", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
@@ -163,7 +170,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
             return 1
         case 1:
             var countSnapshots = 0
-            if snapshots.count > 0 {
+            if snapshots.count != 0 {
                 TableViewHelper.EmptyMessage(message: "", viewController: self)
                 for snap in snapshots{
                     let thing = snap.value as? Dictionary<String, AnyObject>
@@ -175,8 +182,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
                 }
                 return countSnapshots
             }else {
-                TableViewHelper.EmptyMessage(message: "Aún no hay fotografías,\n agrega una y muestra la magia de tus viajes.", viewController: self)
-                return 0
+                return 1
             }
         default:
             assert(false, "section \(section)")
@@ -230,18 +236,18 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
+        var cell:UserProfileTableViewCell
         
-        if imagesSnapshots.count > 0 {
+        if imagesSnapshots.count != 0 {
             if indexPath.row >= imagesSnapshots.count {
-                cell.backgroundColor = UIColor.black
-                cell.emptyDynamicCell()
+                cell = tableView.dequeueReusableCell(withIdentifier: "emptyImagesArea", for: indexPath) as! UserProfileTableViewCell
             }else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
                 cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {
-            cell.emptyDynamicCell()
+            cell = tableView.dequeueReusableCell(withIdentifier: "emptyImagesArea", for: indexPath) as! UserProfileTableViewCell
         }
         
         return cell
@@ -283,9 +289,26 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         
         ref.queryOrdered(byChild: "timestamp").observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
-                self?.snapshots = snapshots
-                self?.activityIndicatorView.stopAnimating()
-                self?.userProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                for snap in snapshots {
+                     if let snaps = snap.value as? Dictionary<String, AnyObject> {
+                        if (snaps["uid"] as? String) != nil {
+                            let uids = snaps["uid"] as! String
+                            let currentuid = self?.uid
+                            if uids.caseInsensitiveCompare(currentuid!) == ComparisonResult.orderedSame {
+                                print("Snapshots: \(snapshots)")
+                                self?.snapshots = snapshots
+                                self?.activityIndicatorView.stopAnimating()
+                                self?.userProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                            }else {
+                                self?.activityIndicatorView.stopAnimating()
+                                self?.userProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                            }
+                        }else {
+                            self?.activityIndicatorView.stopAnimating()
+                            self?.userProfileTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                        }
+                    }
+                }
             }
         }
     }
@@ -304,7 +327,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     }
     
     //MARK: - Tabs Initializer
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         tabBarItem = UITabBarItem(title: "Perfil", image: UIImage(named: "user"), tag: 1)

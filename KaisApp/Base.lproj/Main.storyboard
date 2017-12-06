@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -395,6 +396,28 @@
                                     <segue destination="L7G-Vy-BPM" kind="presentation" identifier="ShowImagesDetailViewUsers" id="DhG-rP-abA"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="emptyImagesArea" rowHeight="200" id="KsS-xf-AKk" userLabel="imagesArea" customClass="UserProfileTableViewCell" customModule="KaisApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="528" width="375" height="200"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KsS-xf-AKk" id="RNU-aM-2J4">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aún no hay imágenes que mostrar, agrega una y muestra la magia de tus viajes." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zax-XN-rId">
+                                            <rect key="frame" x="16" y="11" width="343" height="178"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Zax-XN-rId" firstAttribute="top" secondItem="RNU-aM-2J4" secondAttribute="topMargin" id="9oX-Na-3x7"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Zax-XN-rId" secondAttribute="bottom" id="d2y-0z-2Jr"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Zax-XN-rId" secondAttribute="trailing" id="nHC-oK-vuG"/>
+                                        <constraint firstItem="Zax-XN-rId" firstAttribute="leading" secondItem="RNU-aM-2J4" secondAttribute="leadingMargin" id="xqu-9Q-9nb"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="AN8-Q6-YpE" id="qkM-IR-ylw"/>
@@ -667,6 +690,28 @@
                                     <segue destination="L7G-Vy-BPM" kind="presentation" identifier="ShowImagesDetailViewUsers" id="el9-z4-ojM"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="showEmptyImagesArea" rowHeight="200" id="dzK-Qt-3fA" userLabel="imagesArea" customClass="UserProfileTableViewCell" customModule="KaisApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="528" width="375" height="200"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dzK-Qt-3fA" id="Q1x-rw-hzj">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nada que mostrar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TeL-7E-GxC">
+                                            <rect key="frame" x="16" y="11" width="343" height="178"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="TeL-7E-GxC" firstAttribute="leading" secondItem="Q1x-rw-hzj" secondAttribute="leadingMargin" id="DYa-w6-htj"/>
+                                        <constraint firstItem="TeL-7E-GxC" firstAttribute="top" secondItem="Q1x-rw-hzj" secondAttribute="topMargin" id="ElA-zJ-VpR"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="TeL-7E-GxC" secondAttribute="bottom" id="Eqc-b3-FMk"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="TeL-7E-GxC" secondAttribute="trailing" id="v0D-e8-0cS"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="YOw-re-1Na" id="5vq-hl-Rm8"/>
@@ -909,6 +954,28 @@
                                     <segue destination="L7G-Vy-BPM" kind="presentation" identifier="showImagesDetailViewMain" id="aOI-QZ-B0k"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="emptyImagesArea" rowHeight="200" id="GF2-NQ-bhO" customClass="MainDetailTableViewCell" customModule="KaisApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="628" width="375" height="200"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GF2-NQ-bhO" id="J21-Dn-1lK">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aún no hay imágenes que mostrar, agrega una y muestra la magia de tus viajes." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uR-mQ-QAi">
+                                            <rect key="frame" x="16" y="11" width="343" height="178"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="4uR-mQ-QAi" firstAttribute="top" secondItem="J21-Dn-1lK" secondAttribute="topMargin" id="6RI-ri-vZM"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="4uR-mQ-QAi" secondAttribute="trailing" id="BbV-3Y-VnR"/>
+                                        <constraint firstItem="4uR-mQ-QAi" firstAttribute="leading" secondItem="J21-Dn-1lK" secondAttribute="leadingMargin" id="kCR-wK-GGG"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4uR-mQ-QAi" secondAttribute="bottom" id="xRY-nR-kDW"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="yNJ-Kr-7lY" id="vd1-fy-CPo"/>
@@ -921,7 +988,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yqt-kS-Sl0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2634" y="36"/>
+            <point key="canvasLocation" x="2632.8000000000002" y="35.532233883058474"/>
         </scene>
         <!--ImagesVC-->
         <scene sceneID="g6D-1X-TKy">
@@ -1635,13 +1702,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toca una estrella para evaluar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyE-Cd-eft">
-                                <rect key="frame" x="0.0" y="20" width="375" height="21"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleAspectFit" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="YpS-CW-czO" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="0.0" y="49" width="370" height="70"/>
+                                <rect key="frame" x="0.0" y="93" width="370" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="starSize">
@@ -1668,7 +1735,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Título" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wel-UL-Z2a">
-                                <rect key="frame" x="16" y="127" width="343" height="31"/>
+                                <rect key="frame" x="16" y="171" width="343" height="31"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="scl-DM-NAJ"/>
@@ -1678,7 +1745,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yft-d3-m88">
-                                <rect key="frame" x="16" y="166" width="343" height="338"/>
+                                <rect key="frame" x="16" y="210" width="343" height="338"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="338" id="69s-aD-snU"/>
@@ -1687,7 +1754,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yt9-BP-ZXt">
-                                <rect key="frame" x="16" y="512" width="343" height="60"/>
+                                <rect key="frame" x="16" y="556" width="343" height="60"/>
                                 <color key="backgroundColor" red="0.99646371603012085" green="0.58648604154586792" blue="0.069411702454090118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="m53-3Y-rFc"/>
@@ -1828,10 +1895,10 @@
         <image name="uploadedPictures" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oAQ-bT-sHE"/>
+        <segue reference="Fa8-aa-T76"/>
         <segue reference="jZr-V1-vKb"/>
-        <segue reference="el9-z4-ojM"/>
-        <segue reference="eLq-p0-Zti"/>
+        <segue reference="DhG-rP-abA"/>
+        <segue reference="Irm-56-vWa"/>
         <segue reference="pIU-7U-Ayw"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

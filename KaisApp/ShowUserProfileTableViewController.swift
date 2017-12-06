@@ -244,18 +244,18 @@ class ShowUserProfileTableViewController: UITableViewController {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
+        var cell:  UserProfileTableViewCell
         
         if imagesSnapshots.count > 0 {
             if indexPath.row >= imagesSnapshots.count {
-                cell.backgroundColor = UIColor.black
-                cell.emptyDynamicCell()
+                cell = tableView.dequeueReusableCell(withIdentifier: "showEmptyImagesArea", for: indexPath) as! UserProfileTableViewCell
             }else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! UserProfileTableViewCell
                 cell.imagesSnapshot = imagesSnapshots[indexPath.row]
                 cell.forDynamicCells(snapshot: imagesSnapshots[indexPath.row], storage: storage)
             }
         }else {
-            cell.emptyDynamicCell()
+            cell = tableView.dequeueReusableCell(withIdentifier: "showEmptyImagesArea", for: indexPath) as! UserProfileTableViewCell
         }
         
         return cell
@@ -308,10 +308,10 @@ class ShowUserProfileTableViewController: UITableViewController {
         
         ref.queryOrderedByKey().observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
-                self?.userSnapshot = snapshots
                 for user in snapshots {
                     let userID = user.key
                     if self?.uid.caseInsensitiveCompare(userID) == ComparisonResult.orderedSame {
+                        self?.userSnapshot = snapshots
                         self?.users = user
                     }
                 }

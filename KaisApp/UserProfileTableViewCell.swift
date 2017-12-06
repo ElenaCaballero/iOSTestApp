@@ -195,7 +195,11 @@ class UserProfileTableViewCell: UITableViewCell {
     }
     
     func emptyDynamicCell() {
-        TableViewHelper.EmptyCell(message: "Aún no hay imágenes que mostrar,\n agrega una y muestra la magia de tus viajes.", cell: self)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        label.center = CGPoint(x: 160, y: 285)
+        label.textAlignment = .center
+        label.text = "Aún no hay imágenes que mostrar,\n agrega una y muestra la magia de tus viajes."
+        self.addSubview(label)
     }
     
     func forDynamicCells(snapshot: DataSnapshot, storage: StorageReference) {

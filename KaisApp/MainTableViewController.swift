@@ -152,6 +152,7 @@ class MainTableViewController: UITableViewController {
                             else {
                                     fatalError("Unable to instantiate image data")
                                 }
+                        destinationViewController.kaid = snapshots[indexPath.row].key
                         destinationViewController.place = place
                         destinationViewController.placeSnapshot = snapshots[indexPath.row]
                     }

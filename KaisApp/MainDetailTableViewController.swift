@@ -19,6 +19,7 @@ class MainDetailTableViewController: UITableViewController {
     var snapshots = [DataSnapshot]()
     var placeSnapshot:DataSnapshot = DataSnapshot()
     var countSnapshots = 0
+    var kaid:String = String()
     
     var buttonIndexPath: IndexPath = IndexPath()
     
@@ -33,7 +34,13 @@ class MainDetailTableViewController: UITableViewController {
         activityIndicatorView.color = UIColor.black
         
         if mainDetailTableView != nil {
-            mainDetailTableView.backgroundView = activityIndicatorView
+            mainDetailTableView.addSubview(activityIndicatorView)
+            activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+            activityIndicatorView.hidesWhenStopped = true
+            let horizontalConstraint = NSLayoutConstraint(item: activityIndicatorView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+            mainDetailTableView.addConstraint(horizontalConstraint)
+            let verticalConstraint = NSLayoutConstraint(item: activityIndicatorView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+            mainDetailTableView.addConstraint(verticalConstraint)
             
             mainDetailTableView.register(UINib.init(nibName: "MainDetailHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "MainDetailHeaderID")
         }
@@ -59,6 +66,7 @@ class MainDetailTableViewController: UITableViewController {
                     self.mainDetailTableView.separatorStyle = .singleLine
                     
                     self.loadImageContentForCells()
+                    
                 }
             }
             
@@ -152,7 +160,7 @@ class MainDetailTableViewController: UITableViewController {
             return 1
         case 1:
             let placeName = place.name.removingWhitespaces()
-            if snapshots.count > 0 {
+            if snapshots.count != 0 {
                 for snap in snapshots {
                     let thing = snap.value as? Dictionary<String, AnyObject>
                     let token = (thing!["kaid"] as! String).components(separatedBy: "-")
@@ -162,7 +170,7 @@ class MainDetailTableViewController: UITableViewController {
                 }
                 return countSnapshots
             }else {
-                return 0
+                return 1
             }
         default:
             assert(false, "section \(section)")
@@ -180,14 +188,20 @@ class MainDetailTableViewController: UITableViewController {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! MainDetailTableViewCell
+        var cell: MainDetailTableViewCell
         
-        if indexPath.row >= snapshots.count{
-            cell.backgroundColor = UIColor.black
-        } else {
-            cell.imagesSnapshot = snapshots[indexPath.row]
-            cell.forDynamicCells(snapshot: snapshots[indexPath.row], storage: storage)
+        if snapshots.count == 0 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "emptyImagesArea", for: indexPath) as! MainDetailTableViewCell
+        }else {
+            if indexPath.row >= snapshots.count{
+                cell = tableView.dequeueReusableCell(withIdentifier: "emptyImagesArea", for: indexPath) as! MainDetailTableViewCell
+            } else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "imagesArea", for: indexPath) as! MainDetailTableViewCell
+                cell.imagesSnapshot = snapshots[indexPath.row]
+                cell.forDynamicCells(snapshot: snapshots[indexPath.row], storage: storage)
+            }
         }
+        
         
         return cell
     }
@@ -225,9 +239,26 @@ class MainDetailTableViewController: UITableViewController {
         
         ref.queryOrdered(byChild: "timestamp").observe(.value) { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
-                self?.snapshots = snapshots
-                self?.activityIndicatorView.stopAnimating()
-                self?.mainDetailTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                for snap in snapshots {
+                    if let snaps = snap.value as? Dictionary<String, AnyObject> {
+                        if (snaps["kaid"] as? String) != nil {
+                            let uids = snaps["kaid"] as! String
+                            let currentuid = self?.kaid
+                            if uids.caseInsensitiveCompare(currentuid!) == ComparisonResult.orderedSame {
+                                print("Snapshots: \(snapshots)")
+                                self?.snapshots = snapshots
+                                self?.activityIndicatorView.stopAnimating()
+                                self?.mainDetailTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                            }else {
+                                self?.activityIndicatorView.stopAnimating()
+                                self?.mainDetailTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                            }
+                        }else {
+                            self?.activityIndicatorView.stopAnimating()
+                            self?.mainDetailTableView.reloadSections(IndexSet.init(integer: 1), with: UITableViewRowAnimation.none)
+                        }
+                    }
+                }
             }
         }
     }
