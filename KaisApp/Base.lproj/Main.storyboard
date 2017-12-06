@@ -724,7 +724,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pmp-fP-ABC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4519" y="36"/>
+            <point key="canvasLocation" x="4542" y="63"/>
         </scene>
         <!--Main Detail Table View Controller-->
         <scene sceneID="kc4-gX-Cin">
@@ -776,7 +776,7 @@
                                                         <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="eft-jQ-ffE" kind="show" identifier="showReview" id="Fa8-aa-T76"/>
+                                                        <segue destination="eft-jQ-ffE" kind="show" identifier="showReview" id="dDo-nV-Yes"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cb-Xt-QHC">
@@ -1113,7 +1113,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wHf-p4-VU8">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -1121,16 +1121,16 @@
                                 </connections>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9Ed-hq-uUw" userLabel="Likes">
-                                <rect key="frame" x="0.0" y="617.5" width="375" height="49.5"/>
+                                <rect key="frame" x="0.0" y="617.5" width="0.0" height="49.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNK-Ud-Suv">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
                                         <state key="normal">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="27R-nH-Av3">
-                                        <rect key="frame" x="0.0" y="30" width="375" height="19.5"/>
+                                        <rect key="frame" x="0.0" y="30" width="0.0" height="19.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -1150,7 +1150,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31j-Yc-cYy">
-                                <rect key="frame" x="30" y="25" width="345" height="20.5"/>
+                                <rect key="frame" x="0.0" y="25" width="0.0" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -1273,9 +1273,6 @@
                                                 <state key="normal">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <connections>
-                                                    <segue destination="eft-jQ-ffE" kind="show" identifier="showReview" id="oAQ-bT-sHE"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wo-kP-tmL">
                                                 <rect key="frame" x="120.5" y="0.0" width="120.5" height="30"/>
@@ -1328,7 +1325,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yG4-0n-06G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5449" y="36"/>
+            <point key="canvasLocation" x="5449" y="63"/>
         </scene>
         <!--Authenticate-->
         <scene sceneID="Z4O-Dx-pXc">
@@ -1813,7 +1810,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPc-uh-1HC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3534" y="36"/>
+            <point key="canvasLocation" x="3534" y="64"/>
         </scene>
         <!--FotosPopUp-->
         <scene sceneID="vGh-6q-iNL">
@@ -1895,9 +1892,8 @@
         <image name="uploadedPictures" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fa8-aa-T76"/>
         <segue reference="jZr-V1-vKb"/>
-        <segue reference="DhG-rP-abA"/>
+        <segue reference="el9-z4-ojM"/>
         <segue reference="Irm-56-vWa"/>
         <segue reference="pIU-7U-Ayw"/>
     </inferredMetricsTieBreakers>
