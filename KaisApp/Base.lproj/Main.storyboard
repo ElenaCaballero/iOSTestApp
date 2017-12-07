@@ -1359,10 +1359,16 @@
                                     <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Div-h7-Fkh" customClass="GIDSignInButton">
                                         <rect key="frame" x="0.0" y="78" width="295" height="48"/>
                                         <color key="backgroundColor" red="1" green="0.093620718350000007" blue="0.031477210409999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                        </accessibility>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="l4z-pg-lH3" customClass="FBSDKLoginButton">
                                         <rect key="frame" x="0.0" y="156" width="295" height="48"/>
                                         <color key="backgroundColor" red="0.070477194879999996" green="0.1182920221" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                        </accessibility>
                                     </view>
                                 </subviews>
                                 <constraints>
