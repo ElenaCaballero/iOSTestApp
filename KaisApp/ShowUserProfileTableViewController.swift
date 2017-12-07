@@ -111,121 +111,132 @@ class ShowUserProfileTableViewController: UITableViewController {
         var userShownUName:String = String()
         var followers:Int = Int()
         
-        if navigationItem.rightBarButtonItem?.title?.caseInsensitiveCompare("Seguir") == ComparisonResult.orderedSame  {
-            ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
-                
-                //getting auth info
-                if let value = snapshot.value as? Dictionary<String, AnyObject> {
-                    if value["uname"] as? String != nil {
-                        userAuthUName = (value["uname"] as? String)!
-                    }else {
-                        userAuthUName = (Auth.auth().currentUser?.email)!
-                    }
-                    if value["following"] as? Int != nil {
-                        following = (value["following"] as? Int)! + 1
-                    }else {
-                        following = 1
-                    }
+        ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            
+            self?.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+            
+            //getting auth info
+            if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                if value["uname"] as? String != nil {
+                    userAuthUName = (value["uname"] as? String)!
+                }else {
+                    userAuthUName = (Auth.auth().currentUser?.email)!
                 }
-                
-                //getting shown info
-                if let value = self?.users.value as? Dictionary<String, AnyObject> {
-                    if value["uname"] as? String != nil {
-                        userShownUName = (value["uname"] as? String)!
-                    }else {
-                        userShownUName = (Auth.auth().currentUser?.email)!
-                    }
-                    if value["followers"] as? Int != nil {
-                        followers = (value["followers"] as? Int)! + 1
-                    }else {
-                        followers = 1
-                    }
+                if value["following"] as? Int != nil {
+                    following = (value["following"] as? Int)! + 1
+                }else {
+                    following = 1
                 }
-                
-                //setting following of auth user
-                self?.ref.child("users/\(userAuthUID)/following").setValue(following)
-                
-                let userShown = ["\(userShownID)": userShownUName]
-                
-                //setting following of userauth
-                self?.ref.child("follows").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
-                    if let snap = snapshot.value as? Dictionary<String, AnyObject> {
-                        if snap.keys.contains(userAuthUID) {
-                            self?.ref.child("follows/\(userAuthUID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
-                                if let snap = snapshot.value as? Dictionary<String, AnyObject> {
-                                    if snap.keys.contains(userShownID) {
-                                        self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
-                                    }else {
-                                        self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
-                                    }
+            }
+            
+            //getting shown info
+            if let value = self?.users.value as? Dictionary<String, AnyObject> {
+                if value["uname"] as? String != nil {
+                    userShownUName = (value["uname"] as? String)!
+                }else {
+                    userShownUName = (Auth.auth().currentUser?.email)!
+                }
+                if value["followers"] as? Int != nil {
+                    followers = (value["followers"] as? Int)! + 1
+                }else {
+                    followers = 1
+                }
+            }
+            
+            //setting following of auth user
+            self?.ref.child("users/\(userAuthUID)/following").setValue(following)
+            
+            let userShown = ["\(userShownID)": userShownUName]
+            
+            //setting following of userauth
+            self?.ref.child("follows").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                    if snap.keys.contains(userAuthUID) {
+                        self?.ref.child("follows/\(userAuthUID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                            if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                                if snap.keys.contains(userShownID) {
+                                    self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
+                                }else {
+                                    self?.ref.child("follows/\(userAuthUID)/following").updateChildValues(userShown)
                                 }
-                            })
-                        }else {
-                            self?.ref.child("follows").child(userAuthUID).child("following").setValue(userShown)
-                        }
-                    }
-                })
-                
-                //setting followers user shown
-                self?.ref.child("users/\(userShownID)/followers").setValue(followers)
-                
-                let userAuth = ["\(userAuthUID)": userAuthUName]
-                
-                //setting followers usershown
-                self?.ref.child("follows/\(userShownID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
-                    if let snap = snapshot.value as? Dictionary<String, AnyObject> {
-                        if snap.keys.contains(userAuthUID) {
-                            self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
-                        }else {
-                            self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
-                        }
-                    }
-                })
-                
-            })
-            
-            changeBarButton(when: true)
-            
-        }else {
-            ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
-                
-                //getting auth info
-                if let value = snapshot.value as? Dictionary<String, AnyObject> {
-                    if value["uname"] as? String != nil {
-                        userAuthUName = (value["uname"] as? String)!
+                            }
+                        })
                     }else {
-                        userAuthUName = (Auth.auth().currentUser?.email)!
-                    }
-                    if value["following"] as? Int != nil {
-                        following = (value["following"] as? Int)! - 1
-                    }else {
-                        following = 0
+                        self?.ref.child("follows").child(userAuthUID).child("following").setValue(userShown)
                     }
                 }
-                
-                //getting shown info
-                if let value = self?.users.value as? Dictionary<String, AnyObject> {
-                    if value["uname"] as? String != nil {
-                        userShownUName = (value["uname"] as? String)!
-                    }else {
-                        userShownUName = (Auth.auth().currentUser?.email)!
-                    }
-                    if value["followers"] as? Int != nil {
-                        followers = (value["followers"] as? Int)! - 1
-                    }else {
-                        followers = 0
-                    }
-                }
-                
-                //setting following of auth user
-                self?.ref.child("users/\(userAuthUID)/following").setValue(following)
-                
-                //setting followers user shown
-                self?.ref.child("users/\(userShownID)/followers").setValue(followers)
             })
             
-            changeBarButton(when: false)
-        }
+            //setting followers user shown
+            self?.ref.child("users/\(userShownID)/followers").setValue(followers)
+            
+            let userAuth = ["\(userAuthUID)": userAuthUName]
+            
+            //setting followers usershown
+            self?.ref.child("follows/\(userShownID)/followers").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
+                if let snap = snapshot.value as? Dictionary<String, AnyObject> {
+                    if snap.keys.contains(userAuthUID) {
+                        self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
+                    }else {
+                        self?.ref.child("follows/\(userShownID)/followers").updateChildValues(userAuth)
+                    }
+                }
+            })
+            
+        })
+        
+        changeBarButton(when: true)
+    }
+    
+    @objc func unFollowUser(){
+        ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+        
+        let userAuthUID = (Auth.auth().currentUser?.uid)!
+        var following:Int = Int()
+        
+        let userShownID = uid
+        var followers:Int = Int()
+        
+        ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            
+            self?.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+            
+            //getting auth info
+            if let value = snapshot.value as? Dictionary<String, AnyObject> {
+                if value["following"] as? Int != nil {
+                    following = (value["following"] as? Int)! - 1
+                }else {
+                    following = 0
+                }
+            }
+            
+            //getting shown info
+            if let value = self?.users.value as? Dictionary<String, AnyObject> {
+                if value["followers"] as? Int != nil {
+                    followers = (value["followers"] as? Int)! - 1
+                }else {
+                    followers = 0
+                }
+            }
+            
+            //setting following of auth user
+            self?.ref.child("users/\(userAuthUID)/following").setValue(following)
+            
+            //removing following
+            self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue { error, _ in
+                print("Hubo un error: \(String(describing: error))")
+            }
+            
+            //setting followers user shown
+            self?.ref.child("users/\(userShownID)/followers").setValue(followers)
+            
+            //removing follower
+            self?.ref.child("follows/\(userShownID)/following").child(userAuthUID).removeValue { error, _ in
+                print("Hubo un error: \(String(describing: error))")
+            }
+        })
+        
+        changeBarButton(when: false)
     }
     
     func changeBarButton(when following: Bool) {
@@ -235,7 +246,7 @@ class ShowUserProfileTableViewController: UITableViewController {
             let barButton = UIButton(type: .custom)
             barButton.setTitle("No Seguir", for: .normal)
             barButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            barButton.addTarget(self, action: #selector(followUser), for: .touchUpInside)
+            barButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
             let item = UIBarButtonItem(customView: barButton)
             
             navigationItem.setRightBarButton(item, animated: true)
