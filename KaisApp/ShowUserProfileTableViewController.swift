@@ -223,17 +223,17 @@ class ShowUserProfileTableViewController: UITableViewController {
             self?.ref.child("users/\(userAuthUID)/following").setValue(following)
             
             //removing following
-            self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue { error, _ in
+            self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue(completionBlock: { (error, ref) in
                 print("Hubo un error: \(String(describing: error))")
-            }
+            })
             
             //setting followers user shown
             self?.ref.child("users/\(userShownID)/followers").setValue(followers)
             
             //removing follower
-            self?.ref.child("follows/\(userShownID)/following").child(userAuthUID).removeValue { error, _ in
+            self?.ref.child("follows/\(userShownID)/following").child(userAuthUID).removeValue(completionBlock: { (error, ref) in
                 print("Hubo un error: \(String(describing: error))")
-            }
+            })
         })
         
         changeBarButton(when: false)
