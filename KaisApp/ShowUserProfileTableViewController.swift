@@ -88,15 +88,19 @@ class ShowUserProfileTableViewController: UITableViewController {
         
         ref.child("follows/\(userAuthUID)/following").queryOrderedByKey().observe(.value, with: { [weak self] (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshots {
-                    if snap.key.elementsEqual(userShownID) {
-                        self?.changeBarButton(when: false)
-                    }else {
-                        self?.changeBarButton(when: true)
+                if snapshots.isEmpty {
+                    self?.changeBarButton(when: true)
+                }else {
+                    for snap in snapshots {
+                        print("SNap Key: \(snap.key), userShownID: \(userShownID)")
+                        if snap.key.elementsEqual(userShownID) {
+                            self?.changeBarButton(when: false)
+                        }else {
+                            self?.changeBarButton(when: true)
+                        }
                     }
                 }
             }
-            
         })
     }
     
@@ -185,7 +189,7 @@ class ShowUserProfileTableViewController: UITableViewController {
             
         })
         
-        changeBarButton(when: true)
+        self.checkIfFollowing()
     }
     
     @objc func unFollowUser(){
@@ -199,7 +203,7 @@ class ShowUserProfileTableViewController: UITableViewController {
         
         ref.child("users").child(userAuthUID).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             
-            self?.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
+            //self?.ref = Database.database().reference(fromURL: "https://kaisapp-dev.firebaseio.com")
             
             //getting auth info
             if let value = snapshot.value as? Dictionary<String, AnyObject> {
@@ -223,20 +227,26 @@ class ShowUserProfileTableViewController: UITableViewController {
             self?.ref.child("users/\(userAuthUID)/following").setValue(following)
             
             //removing following
-            self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue(completionBlock: { (error, ref) in
-                print("Hubo un error: \(String(describing: error))")
-            })
+            self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue()
+//                .removeValue(completionBlock: { (error, ref) in
+//                if error != nil {
+//                    print("Error unable to delete user")
+//                }
+//            })
             
             //setting followers user shown
             self?.ref.child("users/\(userShownID)/followers").setValue(followers)
             
             //removing follower
-            self?.ref.child("follows/\(userShownID)/following").child(userAuthUID).removeValue(completionBlock: { (error, ref) in
-                print("Hubo un error: \(String(describing: error))")
-            })
+            self?.ref.child("follows/\(userShownID)/followers").child(userAuthUID).removeValue()
+//                .removeValue(completionBlock: { (error, ref) in
+//                if error != nil {
+//                    print("Error unable to delete user")
+//                }
+//            })
         })
         
-        changeBarButton(when: false)
+        self.checkIfFollowing()
     }
     
     func changeBarButton(when following: Bool) {
@@ -244,9 +254,9 @@ class ShowUserProfileTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = nil
             
             let barButton = UIButton(type: .custom)
-            barButton.setTitle("No Seguir", for: .normal)
+            barButton.setTitle("Seguir", for: .normal)
             barButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            barButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
+            barButton.addTarget(self, action: #selector(followUser), for: .touchUpInside)
             let item = UIBarButtonItem(customView: barButton)
             
             navigationItem.setRightBarButton(item, animated: true)
@@ -254,9 +264,9 @@ class ShowUserProfileTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = nil
             
             let barButton = UIButton(type: .custom)
-            barButton.setTitle("Seguir", for: .normal)
+            barButton.setTitle("No Seguir", for: .normal)
             barButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            barButton.addTarget(self, action: #selector(followUser), for: .touchUpInside)
+            barButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
             let item = UIBarButtonItem(customView: barButton)
             
             navigationItem.setRightBarButton(item, animated: true)
