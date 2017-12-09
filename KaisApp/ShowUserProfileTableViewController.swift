@@ -92,7 +92,6 @@ class ShowUserProfileTableViewController: UITableViewController {
                     self?.changeBarButton(when: true)
                 }else {
                     for snap in snapshots {
-                        print("SNap Key: \(snap.key), userShownID: \(userShownID)")
                         if snap.key.elementsEqual(userShownID) {
                             self?.changeBarButton(when: false)
                         }else {
@@ -208,7 +207,11 @@ class ShowUserProfileTableViewController: UITableViewController {
             //getting auth info
             if let value = snapshot.value as? Dictionary<String, AnyObject> {
                 if value["following"] as? Int != nil {
-                    following = (value["following"] as? Int)! - 1
+                    if (value["following"] as? Int)! == 0 {
+                        following = 0
+                    }else {
+                        following = (value["following"] as? Int)! - 1
+                    }
                 }else {
                     following = 0
                 }
@@ -217,7 +220,11 @@ class ShowUserProfileTableViewController: UITableViewController {
             //getting shown info
             if let value = self?.users.value as? Dictionary<String, AnyObject> {
                 if value["followers"] as? Int != nil {
-                    followers = (value["followers"] as? Int)! - 1
+                    if (value["followers"] as? Int)! == 0 {
+                        following = 0
+                    }else {
+                        following = (value["followers"] as? Int)! - 1
+                    }
                 }else {
                     followers = 0
                 }
@@ -228,22 +235,12 @@ class ShowUserProfileTableViewController: UITableViewController {
             
             //removing following
             self?.ref.child("follows/\(userAuthUID)/following").child(userShownID).removeValue()
-//                .removeValue(completionBlock: { (error, ref) in
-//                if error != nil {
-//                    print("Error unable to delete user")
-//                }
-//            })
             
             //setting followers user shown
             self?.ref.child("users/\(userShownID)/followers").setValue(followers)
             
             //removing follower
             self?.ref.child("follows/\(userShownID)/followers").child(userAuthUID).removeValue()
-//                .removeValue(completionBlock: { (error, ref) in
-//                if error != nil {
-//                    print("Error unable to delete user")
-//                }
-//            })
         })
         
         self.checkIfFollowing()

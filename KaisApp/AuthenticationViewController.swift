@@ -36,6 +36,11 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
     
     var ref: DatabaseReference!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkIfUserIsSignedIn()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,7 +60,6 @@ class AuthenticationViewController: UIViewController, GIDSignInUIDelegate, FBSDK
             button.delegate = self
         }
         
-        checkIfUserIsSignedIn()
     }
     
     func checkIfUserIsSignedIn() {

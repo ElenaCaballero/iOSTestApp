@@ -1319,6 +1319,8 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="commentsButton" destination="fi0-38-wtM" id="6cs-s6-9Tp"/>
+                        <outlet property="externalView" destination="kSS-oE-9bR" id="3SQ-jj-LBe"/>
+                        <outlet property="internalView" destination="uxJ-Lx-HMd" id="pmI-Jt-IFB"/>
                         <outlet property="sendButton" destination="3wo-kP-tmL" id="GRo-Ps-ENL"/>
                         <outlet property="starsRating" destination="n3l-ld-Nfl" id="7Ze-LL-0PC"/>
                     </connections>
@@ -1879,7 +1881,9 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameraButton" destination="73o-wy-ygu" id="LXg-TQ-Naw"/>
+                        <outlet property="externalView" destination="rhQ-3i-E2m" id="vc4-uv-oaN"/>
                         <outlet property="galleryButton" destination="ZaJ-HR-UZZ" id="egD-gT-ud2"/>
+                        <outlet property="internalView" destination="snA-Ll-2di" id="w8L-Kz-U5Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WMe-eW-lbf" userLabel="First Responder" sceneMemberID="firstResponder"/>

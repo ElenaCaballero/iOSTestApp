@@ -12,7 +12,7 @@ import FirebaseAuth
 
 import Cosmos
 
-class PopUpViewController: UIViewController, UIViewControllerTransitioningDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class PopUpViewController: UIViewController, UIViewControllerTransitioningDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     var picker:UIImagePickerController? = UIImagePickerController()
     
@@ -30,6 +30,9 @@ class PopUpViewController: UIViewController, UIViewControllerTransitioningDelega
     @IBOutlet weak var starsRating: CosmosView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
+    
+    @IBOutlet weak var internalView: UIView!
+    @IBOutlet var externalView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +56,17 @@ class PopUpViewController: UIViewController, UIViewControllerTransitioningDelega
             sendButton.setTitle("Enviar", for: .normal)
         }
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(actionClose(_:))))
+        let closeView = UITapGestureRecognizer(target: self, action: #selector(actionClose(_:)))
+        closeView.delegate = self
+        externalView.addGestureRecognizer(closeView)
+        
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if externalView.bounds.contains(touch.location(in: internalView)) {
+            return false
+        }
+        return true
     }
     
     @IBAction func sendReview(_ sender: Any) {
