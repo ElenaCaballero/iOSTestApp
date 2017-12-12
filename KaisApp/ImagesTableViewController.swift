@@ -19,6 +19,7 @@ class ImagesTableViewController: UITableViewController {
     
     var data = Images_Data()
     var snapshots = [DataSnapshot]()
+    
     var buttonIndexPath: IndexPath = IndexPath()
     
     var activityIndicatorView: UIActivityIndicatorView!
@@ -69,7 +70,7 @@ class ImagesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return snapshots.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ImagesImageTableCell", for: indexPath) as? MainTableViewCell  else {
             fatalError("The dequeued cell is not an instance of ImagesTableViewCell.")
@@ -130,8 +131,8 @@ class ImagesTableViewController: UITableViewController {
         storage = Storage.storage().reference(forURL: "gs://kaisapp-dev.appspot.com/images")
         
         ref.queryOrdered(byChild: "timestamp").observe(.value) { [weak self] (snapshot) in
-            if let snapshots = snapshot.children.allObjects as? [DataSnapshot] {
-                self?.snapshots = snapshots
+            if let snaps = snapshot.children.allObjects as? [DataSnapshot] {
+                self?.snapshots = snaps
                 self?.activityIndicatorView.stopAnimating()
                 self?.imagesTableView.reloadData()
             }
