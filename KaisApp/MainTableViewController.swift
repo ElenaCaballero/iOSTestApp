@@ -75,7 +75,6 @@ class MainTableViewController: UITableViewController {
         }
         
         if indexPath.row >= snapshots.count{
-            cell.backgroundColor = UIColor.black
         } else {
             cell.placesSnapshot = snapshots[indexPath.row]
             cell.mainPlaces()

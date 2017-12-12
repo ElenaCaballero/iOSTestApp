@@ -12,7 +12,7 @@ import FirebaseAuthUI
 import FirebaseDatabase
 import FirebaseStorage
 
-class UserProfileTableViewCell: UITableViewCell {
+class UserProfileTableViewCell: UITableViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var imagesSnapshot: DataSnapshot!
     var ref: DatabaseReference!
@@ -37,14 +37,17 @@ class UserProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var heartButton: UIButton!
     @IBOutlet weak var likesLabel: UILabel!
     
+    var picker:UIImagePickerController? = UIImagePickerController()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        picker?.delegate = self
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
@@ -77,7 +80,32 @@ class UserProfileTableViewCell: UITableViewCell {
             aboutYouTextField.isUserInteractionEnabled = true
             aboutYouButton.tintColor = UIColor(rgb: 0xFF9510)
         }
+//        .dismiss
     }
+    
+    //MARK: - For opening gallery
+    var delegate : ImagePickerDelegate?
+    @IBAction func userProfileButtonTouched(_ sender: Any) {
+        
+        delegate?.pickImage()
+//        picker!.allowsEditing = false
+//        picker!.sourceType = .photoLibrary
+//
+//        self.window?.rootViewController?.present(picker!, animated: true, completion: nil)
+    }
+    
+//    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        self.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//    }
+//    
+//    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+//        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+//            userProfileImageButton.contentMode = .scaleAspectFit
+//            userProfileImageButton.setImage(pickedImage, for: .normal)
+//        }
+//        
+//        self.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//    }
     
     func emptyStaticCell() {
         heroImageView.image = UIImage(named: "hero_default")

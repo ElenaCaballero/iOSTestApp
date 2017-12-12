@@ -278,7 +278,7 @@
                                             </constraints>
                                             <state key="normal" image="default_user"/>
                                             <connections>
-                                                <action selector="userProfileButtonTouched:" destination="AN8-Q6-YpE" eventType="touchUpInside" id="Tvi-Yk-4X0"/>
+                                                <action selector="userProfileButtonTouched:" destination="RIW-aC-Y0v" eventType="touchUpInside" id="UJ5-c7-PN4"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -315,7 +315,7 @@
                                     <outlet property="heroImageView" destination="XfP-gq-W7S" id="vdU-dB-oRK"/>
                                     <outlet property="reviewsIconButton" destination="HiU-3C-t2Q" id="mYg-lD-5P5"/>
                                     <outlet property="reviewsInfoLabel" destination="JJt-cO-Oiq" id="eIc-ud-NjS"/>
-                                    <outlet property="userProfileImageButton" destination="2rt-yq-MOz" id="QkE-mc-8fE"/>
+                                    <outlet property="userProfileImageButton" destination="2rt-yq-MOz" id="zrB-cM-itJ"/>
                                     <outlet property="visitedIconButton" destination="ayx-YR-7ea" id="fta-E4-EqB"/>
                                     <outlet property="visitedInfoLabel" destination="RQ6-Gc-UTJ" id="TXH-s2-VHW"/>
                                 </connections>
@@ -1337,8 +1337,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KaisApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHo-07-ToX">
-                                <rect key="frame" x="91" y="198" width="193.5" height="78"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KaisApp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHo-07-ToX">
+                                <rect key="frame" x="0.0" y="198" width="375" height="78"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="78" id="rfm-Tg-5gL"/>
                                 </constraints>
@@ -1381,11 +1381,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="OHo-07-ToX" firstAttribute="centerX" secondItem="bfk-dx-9nR" secondAttribute="centerX" id="6lx-A3-T5k"/>
+                            <constraint firstItem="OHo-07-ToX" firstAttribute="leading" secondItem="bfk-dx-9nR" secondAttribute="leading" id="FxX-Mq-WDf"/>
                             <constraint firstItem="bfk-dx-9nR" firstAttribute="trailing" secondItem="9xA-0P-0mB" secondAttribute="trailing" constant="40" id="JeX-k9-95d"/>
+                            <constraint firstItem="bfk-dx-9nR" firstAttribute="trailing" secondItem="OHo-07-ToX" secondAttribute="trailing" id="WFM-yb-QvE"/>
                             <constraint firstItem="9xA-0P-0mB" firstAttribute="leading" secondItem="bfk-dx-9nR" secondAttribute="leading" constant="40" id="knc-kB-kp8"/>
+                            <constraint firstItem="OHo-07-ToX" firstAttribute="top" secondItem="bfk-dx-9nR" secondAttribute="top" constant="178" id="los-ra-36R"/>
                             <constraint firstItem="bfk-dx-9nR" firstAttribute="bottom" secondItem="9xA-0P-0mB" secondAttribute="bottom" constant="80" id="npj-N0-RSb"/>
-                            <constraint firstItem="OHo-07-ToX" firstAttribute="top" secondItem="bfk-dx-9nR" secondAttribute="top" constant="178" id="y5d-AG-EW3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bfk-dx-9nR"/>
                     </view>
@@ -1712,7 +1713,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleAspectFit" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="YpS-CW-czO" customClass="CosmosView" customModule="Cosmos">
+                            <view contentMode="scaleAspectFit" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YpS-CW-czO" customClass="CosmosView" customModule="Cosmos">
                                 <rect key="frame" x="0.0" y="93" width="370" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -1739,7 +1740,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Título" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wel-UL-Z2a">
+                            <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="752" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Título" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wel-UL-Z2a">
                                 <rect key="frame" x="16" y="171" width="343" height="31"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1749,7 +1750,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yft-d3-m88">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Yft-d3-m88">
                                 <rect key="frame" x="16" y="210" width="343" height="338"/>
                                 <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1758,7 +1759,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yt9-BP-ZXt">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yt9-BP-ZXt">
                                 <rect key="frame" x="16" y="556" width="343" height="60"/>
                                 <color key="backgroundColor" red="0.99646371603012085" green="0.58648604154586792" blue="0.069411702454090118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -1903,7 +1904,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="jZr-V1-vKb"/>
-        <segue reference="el9-z4-ojM"/>
+        <segue reference="DhG-rP-abA"/>
         <segue reference="Irm-56-vWa"/>
         <segue reference="pIU-7U-Ayw"/>
     </inferredMetricsTieBreakers>

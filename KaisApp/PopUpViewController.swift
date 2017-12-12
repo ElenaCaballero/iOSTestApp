@@ -76,8 +76,9 @@ class PopUpViewController: UIViewController, UIViewControllerTransitioningDelega
         let place = self.placeSnapshot.key
         let timestamp = ServerValue.timestamp()
         
-        var reviewsByUser = 1
+        var reviewsByUser = 0
         let reviewsByPlace = 1 + self.place.reviews!
+        
         ref.child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
             if let value = snapshot.value as? Dictionary<String, AnyObject> {
                 if value["uname"] as? String != nil {
@@ -86,11 +87,14 @@ class PopUpViewController: UIViewController, UIViewControllerTransitioningDelega
                     self.uname = (Auth.auth().currentUser?.displayName)!
                 }
                 if value["reviews"] as? Int != nil {
-                    reviewsByUser += (value["reviews"] as? Int)!
+                    reviewsByUser += (value["reviews"] as? Int)! + 1
+                }else {
+                    reviewsByUser = 1
                 }
             }
             
             let reviewDataValues = ["kaid": place, "stars": stars, "timestamp": timestamp, "type": "place", "uid": self.uid as Any, "uname": self.uname] as [String : AnyObject]
+            
             
             self.ref.child("reviews_data").childByAutoId().setValue(reviewDataValues)
             
@@ -99,10 +103,10 @@ class PopUpViewController: UIViewController, UIViewControllerTransitioningDelega
         
         ref.child("reviews_data").queryLimited(toLast: 1).observe(.childAdded, with: { snapshot in
             self.reviewId = snapshot.key
-            
+
             self.ref.child("reviews/places/\(place)/\(self.reviewId)").setValue(timestamp)
             self.ref.child("reviews/users/\(self.uid!)/places/\(place)/\(self.reviewId)").setValue(timestamp)
-            
+
             self.ref.child("places/\(place)/reviews").setValue(reviewsByPlace)
             self.ref.child("places/\(place)/stars").setValue(stars)
         })

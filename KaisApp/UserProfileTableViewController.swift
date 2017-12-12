@@ -16,7 +16,7 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImagePickerDelegate {
     
     var rightBarButtonItem: UIBarButtonItem!
     
@@ -42,7 +42,6 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         activityIndicatorView.color = UIColor.black
         
         self.hideKeyboardWhenTappedAround()
-        
         
         if userProfileTableView != nil {
             userProfileTableView.addSubview(activityIndicatorView)
@@ -227,6 +226,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath) as! UserProfileTableViewCell
             
+            cell.delegate = self
             if userSnapshot.count > 0 {
                 cell.forStaticCell(userId: uid, users: users, storageHero: storageHero, storageProfile: storageProfile)
             }else {
@@ -253,27 +253,22 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         return cell
     }
     
-    //MARK: - For opening gallery
-
-    @IBAction func userProfileButtonTouched(_ sender: Any) {
-        picker!.allowsEditing = false
-        picker!.sourceType = .photoLibrary
+    func pickImage() {
+        picker?.delegate = self
+        picker?.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        picker?.allowsEditing = false
+        self.present(picker!, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        let cell = tableView.cellForRow(at: NSIndexPath(row: 0, section: 0) as IndexPath) as! UserProfileTableViewCell
         
-        present(picker!, animated: true, completion: nil)
-    }
-    
-    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            let indexPath = tableView.indexPath(for: self.tableView)
-            let cell = tableView.dequeueReusableCell(withIdentifier: "userInfo", for: indexPath!) as! UserProfileTableViewCell
-            cell.userProfileImageButton.contentMode = .scaleAspectFit
-            cell.userProfileImageButton.setImage(pickedImage, for: .normal)
-        }
-        dismiss(animated: true, completion: nil)
+        cell.heroImageView.image = image
+        
+        cell.userProfileImageButton.contentMode = .scaleAspectFit
+        cell.userProfileImageButton.setImage(image, for: .normal)
+        
+        picker.dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Database Connection
@@ -353,4 +348,9 @@ extension UITableView {
         let location = view.convert(CGPoint.zero, to: self)
         return self.indexPathForRow(at: location)
     }
+}
+
+protocol ImagePickerDelegate {
+    
+    func pickImage()
 }
